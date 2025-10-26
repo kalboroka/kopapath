@@ -1,0 +1,51 @@
+@font-face {
+	font-family: Cascadia;
+	src: url("./assets/fonts/Cascadia.ttf");
+}
+
+:root {
+  height: 100vh;
+  width: 100vw;
+  line-height: 1.25;
+  font-size: 16px;
+  font-family: Cascadia;
+  -webkit-font-smoothing: antialiased;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+span.lu-icon {
+  display: flex;
+  align-items: center;
+  padding: 0.25rem;
+  color: inherit;
+}
+input::placeholder {
+  font-family: inherit;
+  color: darkgray;
+  letter-spacing: 2px;
+}
+
+button {
+  user-select: none;
+}
+
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0px 1000px transparent inset !important;
+  -webkit-text-fill-color: inherit !important;
+  background-color: transparent !important;
+  transition: background-color 9999s ease-in-out 0s !important;
+}

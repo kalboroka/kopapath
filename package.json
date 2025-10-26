@@ -1,0 +1,55 @@
+{
+  "name": "kopapath",
+  "version": "0.1.0",
+  "description": "",
+  "license": "ISC",
+  "author": "",
+  "type": "module",
+  "main": "server/index.js",
+  "scripts": {
+    "client:start": "webpack serve --mode development",
+    "client:build": "webpack --mode production",
+    "server:dev": "nodemon server/index.js",
+    "server:start": "node server/index.js",
+    "dev": "concurrently \"npm run server:dev\" \"npm run client:start\"",
+    "build": "npm run client:build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "imports": {
+    "#config/*.js": "./server/config/*.js",
+    "#utils/*.js": "./server/utils/*.js",
+    "#middlewares/*.js": "./server/middlewares/*.js",
+    "#routes/*.js": "./server/routes/*.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "compression": "^1.8.1",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "express-rate-limit": "^8.1.0",
+    "helmet": "^8.1.0",
+    "inferno": "^9.0.4",
+    "inferno-router": "^9.0.4",
+    "jsonwebtoken": "^9.0.2",
+    "lucide": "^0.548.0",
+    "pg": "^8.16.3"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.28.4",
+    "@babel/preset-env": "^7.28.3",
+    "@babel/preset-react": "^7.27.1",
+    "babel-loader": "^10.0.0",
+    "babel-plugin-inferno": "^6.8.4",
+    "concurrently": "^9.2.1",
+    "copy-webpack-plugin": "^13.0.1",
+    "css-loader": "^7.1.2",
+    "file-loader": "^6.2.0",
+    "html-webpack-plugin": "^5.6.4",
+    "nodemon": "^3.1.10",
+    "style-loader": "^4.0.0",
+    "webpack": "^5.102.1",
+    "webpack-cli": "^6.0.1",
+    "webpack-dev-server": "^5.2.2"
+  }
+}
