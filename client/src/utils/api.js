@@ -8,7 +8,7 @@
  */
 export async function apiPost(url, data = {}, token) {
   try {
-    const res = await fetch(url, {
+    const res = await window.fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -31,7 +31,7 @@ export async function apiPost(url, data = {}, token) {
  */
 export async function apiGet(url, token) {
   try {
-    const res = await fetch(url, {
+    const res = await window.fetch(url, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

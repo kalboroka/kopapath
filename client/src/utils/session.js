@@ -3,15 +3,15 @@ const TOKEN_KEY = 'access_token';
 
 export const session = {
   set(token) {
-    sessionStorage.setItem(TOKEN_KEY, token);
+    window.sessionStorage.setItem(TOKEN_KEY, token);
   },
   get() {
-    return sessionStorage.getItem(TOKEN_KEY);
+    return window.sessionStorage.getItem(TOKEN_KEY);
   },
   clear() {
-    sessionStorage.removeItem(TOKEN_KEY);
+    window.sessionStorage.removeItem(TOKEN_KEY);
   },
   isLoggedIn() {
-    return !!sessionStorage.getItem(TOKEN_KEY);
+    return !!window.sessionStorage.getItem(TOKEN_KEY);
   }
 };

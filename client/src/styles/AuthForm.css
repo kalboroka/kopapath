@@ -1,6 +1,8 @@
 div.form-container {
   display: flex;
   justify-content: center;
+  align-items: center;
+  height: 100vh;
   
   div.form-input-wrapper {
     display: flex;
@@ -50,23 +52,20 @@ div.form-container {
         display: flex;
         justify-content: space-between;
         position: relative;
-        padding: 0 0.25rem;
         height: 2.5rem;
         border-radius: 0.25rem;
         border-bottom: 2px solid teal;
-        background-color: rgba(0, 0, 0, 0.05);
         
         &>span {
           position: absolute;
           bottom: -1.25rem;
           right: -0.25rem;
           padding: 0 0.25rem;
-          color: red;
+          color: orange;
         }
         
         &:has(input:focus) {
           border-bottom: 2px solid orange;
-          background-color: papayawhip;
           
           &>button>span.lu-icon {
             color: orange;
@@ -75,6 +74,7 @@ div.form-container {
           &>label {
             color: orange;
             font-weight: bold;
+            background-color: papayawhip;
           }
           
           &>input {
@@ -83,11 +83,14 @@ div.form-container {
         }
         
         &>label {
-          width: 4rem;
-          display: flex;
-          align-items: flex-end;
+          align-self: flex-end;
+          width: 4.25rem;
           user-select: none;
           color: teal;
+          background-color: lightcyan;
+          border-radius: 0.5rem 0.5rem 0 0;
+          padding-left: 0.375rem;
+          padding-top: 0.625rem;
         }
         
         &>input {

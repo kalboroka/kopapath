@@ -107,7 +107,7 @@ export default class Signup extends Component {
             {this.state.errors[3] && <LuTriangleAlert />}
           </div>
 
-          <small class="cta">Have an account? <Link to="#">Login</Link></small>
+          <small class="cta">Have an account? <Link to="/auth/login">Login</Link></small>
 
           <div className="btn-submit">
             <button type="submit">Signup</button>
