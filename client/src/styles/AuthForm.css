@@ -3,13 +3,14 @@ div.form-container {
   justify-content: center;
   align-items: center;
   height: 100vh;
+  user-select: none;
   
-  div.form-input-wrapper {
+  &>div.form-wrapper {
     display: flex;
     flex-direction: column;
     align-items: center;
-    border-radius: 0.375rem;
-    padding: 1rem;
+    border-radius: 0.5rem;
+    padding: 0.75rem 0.5rem;
     gap: 1.5rem 0;
     width: 75%;
     border: 2px solid darkslateblue;
@@ -21,7 +22,6 @@ div.form-container {
       
       &>h1 {
         color: teal;
-        
       }
       
       &>small {
@@ -35,7 +35,7 @@ div.form-container {
     &>form {
       display: flex;
       flex-direction: column;
-      row-gap: 1.5rem;
+      gap: 1.5rem 0;
       
       &>small.cta {
         text-align: center;
@@ -64,31 +64,12 @@ div.form-container {
           color: orange;
         }
         
-        &:has(input:focus) {
-          border-bottom: 2px solid orange;
-          
-          &>button>span.lu-icon {
-            color: orange;
-          }
-          
-          &>label {
-            color: orange;
-            font-weight: bold;
-            background-color: papayawhip;
-          }
-          
-          &>input {
-            color: teal;
-          }
-        }
-        
         &>label {
           align-self: flex-end;
           width: 4.25rem;
           user-select: none;
           color: teal;
-          background-color: lightcyan;
-          border-radius: 0.5rem 0.5rem 0 0;
+          border-radius: 0.375rem 0.375rem 0 0;
           padding-left: 0.375rem;
           padding-top: 0.625rem;
         }
@@ -107,6 +88,8 @@ div.form-container {
           
           &:focus {
             outline: none;
+            -webkit-text-fill-color: teal !important;
+            color: teal !important;
           }
         }
         
@@ -116,24 +99,34 @@ div.form-container {
           cursor: pointer;
           border: 0;
         }
+        
+        &:has(input:focus) {
+          border-bottom: 2px solid orange;
+          border-bottom-left-radius: 0;
+          
+          &>button>span.lu-icon {
+            color: orange;
+          }
+          
+          &>label {
+            color: darkslateblue;
+            background-color: orange;
+          }
+        }
       }
       
       &>div.btn-submit {
         display: flex;
         justify-content: flex-end;
         
-        &.btn-submit {
-          justify-content: flex-end;
-          
-          &>button {
-            padding: 0.5rem 1rem;
-            border-radius: 0.25rem;
-            cursor: pointer;
-            border: 0;
-            background-color: orange;
-            color: darkslateblue;
-            font-family: inherit;
-          }
+        &>button {
+          padding: 0.5rem 1rem;
+          border-radius: 0.25rem;
+          cursor: pointer;
+          border: 0;
+          background-color: orange;
+          color: darkslateblue;
+          font-family: inherit;
         }
       }
     }

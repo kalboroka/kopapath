@@ -10,10 +10,11 @@
     "client:start": "webpack serve --mode development",
     "client:build": "webpack --mode production",
     "server:dev": "nodemon server/index.js",
-    "server:start": "node server/index.js",
+    "server:start": "node --env-file=.env server",
     "dev": "concurrently \"npm run server:dev\" \"npm run client:start\"",
     "build": "npm run client:build",
-    "lint": "eslint client/src --ext .js,.jsx",
+    "server:lint": "eslint server --ext .js",
+    "client:lint": "eslint client/src --ext .js,.jsx",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "imports": {

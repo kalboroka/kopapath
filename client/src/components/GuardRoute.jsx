@@ -1,17 +1,20 @@
 import { Route, Redirect } from 'inferno-router';
 
-export default function({ component: WrappedComponent, ...rest }) {
-  const token = window.sessionStorage.getItem('token');
+export default function GuardRoute({ component: WrappedComponent, render, ...rest }) {
+  const token = window.sessionStorage.getItem('AccessToken');
+
+  const renderComponent = (props) => {
+    if (token) {
+      return WrappedComponent ? <WrappedComponent {...props} /> : render(props);
+    } else {
+      return <Redirect to="/auth/login" />;
+    }
+  };
 
   return (
     <Route
       {...rest}
-      render={(props) => {
-        return token ?
-          <WrappedComponent {...props} />:
-          <Redirect to="/auth/login" />
-        }
-      }
+      render={renderComponent}
     />
   );
-};
+}

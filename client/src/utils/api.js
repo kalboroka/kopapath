@@ -1,5 +1,7 @@
 // Simple wrapper for fetch API
 
+const BaseURL = "http://localhost:3000";
+
 /**
  * POST request helper
  * @param {string} url - API endpoint (relative)
@@ -8,7 +10,7 @@
  */
 export async function apiPost(url, data = {}, token) {
   try {
-    const res = await window.fetch(url, {
+    const res = await window.fetch(BaseURL+url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -31,7 +33,7 @@ export async function apiPost(url, data = {}, token) {
  */
 export async function apiGet(url, token) {
   try {
-    const res = await window.fetch(url, {
+    const res = await window.fetch(BaseURL+url, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

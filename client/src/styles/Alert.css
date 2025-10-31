@@ -1,0 +1,47 @@
+div.alert-modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 99;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.625);
+  
+  div.wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem 0;
+    padding: 1rem 2rem;
+    max-width: 65%;
+    border-radius: 0.25rem;
+    background-color: papayawhip;
+    
+    &>div {
+      display: flex;
+      gap: 0 0.25rem;
+      
+      &>.lu-icon {
+        align-self: flex-start;
+      }
+      
+      &>.msg {
+        color: darkslateblue;
+        align-content: center;
+      }
+    }
+    
+    &>button {
+      align-self: flex-end;
+      padding: 0.125rem 0.5rem;
+      color: darkslateblue;
+      border: 0;
+      background-color: lightgray;
+      font-weight: bold;
+      border-radius: 0.25rem;
+    }
+  }
+}

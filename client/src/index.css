@@ -37,6 +37,7 @@ input::placeholder {
   font-family: inherit;
   color: darkgray;
   letter-spacing: 2px;
+  font-size: 0.75rem;
 }
 
 button {

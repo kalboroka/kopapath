@@ -1,5 +1,5 @@
 // src/utils/session.js
-const TOKEN_KEY = 'access_token';
+const TOKEN_KEY = 'AccessToken';
 
 export const session = {
   set(token) {

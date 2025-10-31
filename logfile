@@ -1,0 +1,50 @@
+2025-10-27 14:16:08.308 EAT [7468] LOG:  starting PostgreSQL 17.0 on aarch64-unknown-linux-android, compiled by Android (13624864, +pgo, +bolt, +lto, +mlgo, based on r530567e) clang version 19.0.1 (https://android.googlesource.com/toolchain/llvm-project 97a699bf4812a18fb657c2779f5296a4ab2694d2), 64-bit
+2025-10-27 14:16:08.311 EAT [7468] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2025-10-27 14:16:08.317 EAT [7468] LOG:  listening on Unix socket "/data/data/com.termux/files/usr/tmp/.s.PGSQL.5432"
+2025-10-27 14:16:08.339 EAT [7473] LOG:  database system was shut down at 2025-10-23 03:39:51 EAT
+2025-10-27 14:16:08.375 EAT [7468] LOG:  database system is ready to accept connections
+2025-10-27 14:17:16.353 EAT [7566] ERROR:  syntax error at or near "exist" at character 15
+2025-10-27 14:17:16.353 EAT [7566] STATEMENT:  drop table if exist faqs,loans,repayments,users cascade;
+2025-10-27 14:21:08.439 EAT [7471] LOG:  checkpoint starting: time
+2025-10-27 14:21:13.826 EAT [7471] LOG:  checkpoint complete: wrote 56 buffers (0.3%); 0 WAL file(s) added, 0 removed, 0 recycled; write=5.350 s, sync=0.017 s, total=5.388 s; sync files=39, longest=0.003 s, average=0.001 s; distance=241 kB, estimate=241 kB; lsn=0/1D3A468, redo lsn=0/1D3A3D8
+2025-10-27 14:24:04.893 EAT [7468] LOG:  received fast shutdown request
+2025-10-27 14:24:04.898 EAT [7468] LOG:  aborting any active transactions
+2025-10-27 14:24:04.905 EAT [7468] LOG:  background worker "logical replication launcher" (PID 7476) exited with exit code 1
+2025-10-27 14:24:04.907 EAT [7471] LOG:  shutting down
+2025-10-27 14:24:04.910 EAT [7471] LOG:  checkpoint starting: shutdown immediate
+2025-10-27 14:24:04.971 EAT [7471] LOG:  checkpoint complete: wrote 62 buffers (0.4%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.011 s, sync=0.040 s, total=0.064 s; sync files=57, longest=0.004 s, average=0.001 s; distance=214 kB, estimate=239 kB; lsn=0/1D6FF10, redo lsn=0/1D6FF10
+2025-10-27 14:24:04.996 EAT [7468] LOG:  database system is shut down
+2025-10-27 21:25:37.347 EAT [26302] LOG:  starting PostgreSQL 17.0 on aarch64-unknown-linux-android, compiled by Android (13624864, +pgo, +bolt, +lto, +mlgo, based on r530567e) clang version 19.0.1 (https://android.googlesource.com/toolchain/llvm-project 97a699bf4812a18fb657c2779f5296a4ab2694d2), 64-bit
+2025-10-27 21:25:37.351 EAT [26302] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2025-10-27 21:25:37.358 EAT [26302] LOG:  listening on Unix socket "/data/data/com.termux/files/usr/tmp/.s.PGSQL.5432"
+2025-10-27 21:25:37.385 EAT [26307] LOG:  database system was shut down at 2025-10-27 14:24:04 EAT
+2025-10-27 21:25:37.424 EAT [26302] LOG:  database system is ready to accept connections
+2025-10-27 21:31:14.209 EAT [26305] LOG:  checkpoint starting: time
+2025-10-27 21:31:27.583 EAT [26305] LOG:  checkpoint complete: wrote 80 buffers (0.5%); 0 WAL file(s) added, 0 removed, 0 recycled; write=13.325 s, sync=0.023 s, total=13.379 s; sync files=59, longest=0.006 s, average=0.001 s; distance=381 kB, estimate=381 kB; lsn=0/1DCF468, redo lsn=0/1DCF3D8
+2025-10-27 21:36:14.684 EAT [26305] LOG:  checkpoint starting: time
+2025-10-27 21:36:15.031 EAT [26305] LOG:  checkpoint complete: wrote 3 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.321 s, sync=0.005 s, total=0.348 s; sync files=3, longest=0.004 s, average=0.002 s; distance=7 kB, estimate=343 kB; lsn=0/1DD12D0, redo lsn=0/1DD1240
+2025-10-27 21:59:18.854 EAT [26305] LOG:  checkpoint starting: time
+2025-10-27 21:59:19.548 EAT [26305] LOG:  checkpoint complete: wrote 7 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.626 s, sync=0.009 s, total=0.696 s; sync files=5, longest=0.004 s, average=0.002 s; distance=1 kB, estimate=309 kB; lsn=0/1DD1718, redo lsn=0/1DD16C0
+2025-10-27 22:04:18.578 EAT [26305] LOG:  checkpoint starting: time
+2025-10-27 22:04:19.225 EAT [26305] LOG:  checkpoint complete: wrote 7 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.624 s, sync=0.008 s, total=0.650 s; sync files=7, longest=0.005 s, average=0.002 s; distance=1 kB, estimate=278 kB; lsn=0/1DD1D48, redo lsn=0/1DD1CF0
+2025-10-27 22:09:18.258 EAT [26305] LOG:  checkpoint starting: time
+2025-10-27 22:09:18.383 EAT [26305] LOG:  checkpoint complete: wrote 2 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.108 s, sync=0.005 s, total=0.125 s; sync files=2, longest=0.004 s, average=0.002 s; distance=1 kB, estimate=251 kB; lsn=0/1DD2330, redo lsn=0/1DD22D8
+2025-10-27 22:24:33.072 EAT [26305] LOG:  checkpoint starting: time
+2025-10-27 22:24:33.426 EAT [26305] LOG:  checkpoint complete: wrote 4 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.330 s, sync=0.005 s, total=0.355 s; sync files=4, longest=0.004 s, average=0.002 s; distance=2 kB, estimate=226 kB; lsn=0/1DD2BE8, redo lsn=0/1DD2B90
+2025-10-27 22:29:33.549 EAT [26305] LOG:  checkpoint starting: time
+2025-10-27 22:29:33.696 EAT [26305] LOG:  checkpoint complete: wrote 2 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.113 s, sync=0.005 s, total=0.170 s; sync files=2, longest=0.004 s, average=0.003 s; distance=2 kB, estimate=203 kB; lsn=0/1DD35D0, redo lsn=0/1DD3578
+2025-10-27 22:34:33.794 EAT [26305] LOG:  checkpoint starting: time
+2025-10-27 22:34:33.921 EAT [26305] LOG:  checkpoint complete: wrote 2 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.109 s, sync=0.004 s, total=0.127 s; sync files=2, longest=0.003 s, average=0.002 s; distance=2 kB, estimate=183 kB; lsn=0/1DD4158, redo lsn=0/1DD4100
+2025-10-27 22:39:34.019 EAT [26305] LOG:  checkpoint starting: time
+2025-10-27 22:39:34.143 EAT [26305] LOG:  checkpoint complete: wrote 2 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.111 s, sync=0.002 s, total=0.125 s; sync files=2, longest=0.002 s, average=0.001 s; distance=3 kB, estimate=165 kB; lsn=0/1DD4D80, redo lsn=0/1DD4D28
+2025-10-27 22:51:11.283 EAT [26305] LOG:  checkpoint starting: time
+2025-10-27 22:51:11.624 EAT [26305] LOG:  checkpoint complete: wrote 4 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.314 s, sync=0.003 s, total=0.342 s; sync files=4, longest=0.001 s, average=0.001 s; distance=4 kB, estimate=149 kB; lsn=0/1DD5E70, redo lsn=0/1DD5DE0
+2025-10-27 22:56:24.860 EAT [26305] LOG:  checkpoint starting: time
+2025-10-27 22:56:25.000 EAT [26305] LOG:  checkpoint complete: wrote 2 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.113 s, sync=0.002 s, total=0.142 s; sync files=2, longest=0.001 s, average=0.001 s; distance=4 kB, estimate=135 kB; lsn=0/1DD7120, redo lsn=0/1DD7090
+2025-10-27 22:56:52.961 EAT [26302] LOG:  received fast shutdown request
+2025-10-27 22:56:52.963 EAT [26302] LOG:  aborting any active transactions
+2025-10-27 22:56:52.976 EAT [26302] LOG:  background worker "logical replication launcher" (PID 26310) exited with exit code 1
+2025-10-27 22:56:52.976 EAT [26305] LOG:  shutting down
+2025-10-27 22:56:52.981 EAT [26305] LOG:  checkpoint starting: shutdown immediate
+2025-10-27 22:56:53.003 EAT [26305] LOG:  checkpoint complete: wrote 1 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.008 s, sync=0.002 s, total=0.026 s; sync files=1, longest=0.002 s, average=0.002 s; distance=0 kB, estimate=121 kB; lsn=0/1DD71D0, redo lsn=0/1DD71D0
+2025-10-27 22:56:53.031 EAT [26302] LOG:  database system is shut down

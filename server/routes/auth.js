@@ -10,49 +10,61 @@ import { requireAuth } from '#middlewares/auth.js';
 
 const router = express.Router();
 
-function setRefreshCookie(res, token) {
+function setRefreshCookie(res, token, userId) {
   res.cookie('refreshToken', token, {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     signed: true,
-    /*sameSite: 'strict',*/
+    // sameSite: 'strict',
+    maxAge: 30 * 24 * 60 * 60 * 1000 // 30 days
+  });
+  res.cookie('uid', userId, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    signed: true,
+    // sameSite: 'strict',
     maxAge: 30 * 24 * 60 * 60 * 1000
   });
 }
 
+/* -------------------- SIGNUP -------------------- */
 router.post('/signup', async (req, res) => {
-  const { username, email, password } = req.body;
-
-  if (!username || !email || !password)
-    return res.status(400).json({ error: 'Missing required fields' });
+  const { name, mobile, secret } = req.body;
+  if (!name || !mobile || !secret || secret.length < 8)
+    return res.status(400).json({ error: 'credentials unmatched' });
 
   try {
+    // Check if user already exists
     const { rows: existing } = await pool.query(
-      'SELECT id FROM users WHERE username=$1 OR email=$2',
-      [username, email]
+      'SELECT id FROM users WHERE mobile=$1',
+      [mobile]
     );
     if (existing.length > 0)
-      return res.status(409).json({ error: 'User already exists' });
+      return res.status(409).json({ error: 'User exists' });
 
-    if (password.length < 8)
-      return res.status(400).json({ error: 'Password too short (min 8 chars)' });
+    // Hash secret
+    const hashedSecret = await hash(secret);
 
-    const hashedPass = await hash(password);
-
+    // Create new user
     const result = await pool.query(
-      `INSERT INTO users (username, email, password)
+      `INSERT INTO users (name, mobile, secret)
        VALUES ($1, $2, $3)
-       RETURNING id, username`,
-      [username, email, hashedPass]
+       RETURNING id, name, mobile`,
+      [name, mobile, hashedSecret]
     );
     const newUser = result.rows[0];
 
-    const accessToken = signAccess({ id: newUser.id, username: newUser.username });
+    // Generate tokens
+    const accessToken = signAccess({ id: newUser.id, mobile: newUser.mobile });
     const refreshToken = newRefreshToken();
     const hashedRefresh = await hash(refreshToken);
-    await pool.query('UPDATE users SET refresh_token=$1 WHERE id=$2', [hashedRefresh, newUser.id]);
 
-    setRefreshCookie(res, refreshToken);
+    await pool.query('UPDATE users SET refresh_token=$1 WHERE id=$2', [
+      hashedRefresh,
+      newUser.id
+    ]);
+
+    setRefreshCookie(res, refreshToken, newUser.id);
     res.status(201).json({ accessToken });
   } catch (err) {
     console.error(err);
@@ -60,30 +72,33 @@ router.post('/signup', async (req, res) => {
   }
 });
 
+/* -------------------- LOGIN -------------------- */
 router.post('/login', async (req, res) => {
-  console.log('body:', req.body);
-  const { username, password } = req.body;
-  if (!username || !password)
-    return res.status(400).json({ error: 'Missing credentials' });
+  const { mobile, secret } = req.body;
+  if (!mobile || !secret)
+    return res.status(400).json({ error: 'credentials unmatched' });
 
   try {
     const { rows } = await pool.query(
-      'SELECT id, username, password, refresh_token FROM users WHERE username=$1',
-      [username]
+      'SELECT id, name, mobile, secret, refresh_token FROM users WHERE mobile=$1',
+      [mobile]
     );
     const user = rows[0];
     if (!user) return res.status(404).json({ error: 'User not found' });
 
-    const passwordOk = await compare(password, user.password);
-    if (!passwordOk) return res.status(401).json({ error: 'Invalid credentials' });
+    const secretOk = await compare(secret, user.secret);
+    if (!secretOk) return res.status(401).json({ error: 'credentials unmatched' });
 
-    const accessToken = signAccess({ id: user.id, username: user.username });
+    const accessToken = signAccess({ id: user.id, mobile: user.mobile });
     const refreshToken = newRefreshToken();
-
     const hashedRefresh = await hash(refreshToken);
-    await pool.query('UPDATE users SET refresh_token=$1 WHERE id=$2', [hashedRefresh, user.id]);
 
-    setRefreshCookie(res, refreshToken);
+    await pool.query('UPDATE users SET refresh_token=$1 WHERE id=$2', [
+      hashedRefresh,
+      user.id
+    ]);
+
+    setRefreshCookie(res, refreshToken, user.id);
     res.json({ accessToken });
   } catch (err) {
     console.error(err);
@@ -91,30 +106,36 @@ router.post('/login', async (req, res) => {
   }
 });
 
+/* -------------------- REFRESH -------------------- */
 router.post('/refresh', async (req, res) => {
   const refreshToken = req.signedCookies.refreshToken;
-  if (!refreshToken) return res.status(401).json({ error: 'No refresh token' });
+  const userId = req.signedCookies.uid;
+  if (!refreshToken || !userId)
+    return res.status(401).json({ error: 'credentials unmatched' });
 
   try {
-    const { rows } = await pool.query('SELECT id, username, refresh_token FROM users');
-    let user = null;
-    for (const u of rows) {
-      if (u.refresh_token && await compare(refreshToken, u.refresh_token)) {
-        user = u;
-        break;
-      }
-    }
+    const { rows } = await pool.query(
+      'SELECT id, mobile, refresh_token FROM users WHERE id=$1',
+      [userId]
+    );
+    const user = rows[0];
+    if (!user || !user.refresh_token)
+      return res.status(403).json({ error: 'credentials unmatched' });
 
-    if (!user) return res.status(403).json({ error: 'Invalid refresh token' });
+    const match = await compare(refreshToken, user.refresh_token);
+    if (!match) return res.status(403).json({ error: 'credentials unmatched' });
 
     // Rotate refresh token
-    const newAccess = signAccess({ id: user.id, username: user.username });
+    const newAccess = signAccess({ id: user.id, mobile: user.mobile });
     const newRefresh = newRefreshToken();
-
     const hashedNewRefresh = await hash(newRefresh);
-    await pool.query('UPDATE users SET refresh_token=$1 WHERE id=$2', [hashedNewRefresh, user.id]);
 
-    setRefreshCookie(res, newRefresh);
+    await pool.query('UPDATE users SET refresh_token=$1 WHERE id=$2', [
+      hashedNewRefresh,
+      user.id
+    ]);
+
+    setRefreshCookie(res, newRefresh, user.id);
     res.json({ accessToken: newAccess });
   } catch (err) {
     console.error(err);
@@ -122,10 +143,14 @@ router.post('/refresh', async (req, res) => {
   }
 });
 
+/* -------------------- LOGOUT -------------------- */
 router.post('/logout', requireAuth, async (req, res) => {
   try {
-    await pool.query('UPDATE users SET refresh_token=NULL WHERE id=$1', [req.user.id]);
+    await pool.query('UPDATE users SET refresh_token=NULL WHERE id=$1', [
+      req.user.id
+    ]);
     res.clearCookie('refreshToken');
+    res.clearCookie('uid');
     res.status(200).json({ message: 'Logged out successfully' });
   } catch (err) {
     console.error(err);
