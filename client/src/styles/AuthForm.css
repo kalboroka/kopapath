@@ -12,6 +12,7 @@ div.form-container {
     border-radius: 0.5rem;
     padding: 0.75rem 0.5rem;
     gap: 1.5rem 0;
+    background-color: whitesmoke;
     width: 75%;
     border: 2px solid darkslateblue;
     

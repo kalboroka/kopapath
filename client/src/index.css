@@ -10,6 +10,7 @@
   font-size: 16px;
   font-family: Cascadia;
   -webkit-font-smoothing: antialiased;
+  background-color: papayawhip;
 }
 
 *, *::before, *::after {
@@ -25,6 +26,7 @@ ul, ol {
 a {
   text-decoration: none;
   color: inherit;
+  -webkit-tap-highlight-color: transparent;
 }
 
 span.lu-icon {
@@ -33,6 +35,7 @@ span.lu-icon {
   padding: 0.25rem;
   color: inherit;
 }
+
 input::placeholder {
   font-family: inherit;
   color: darkgray;
@@ -42,6 +45,7 @@ input::placeholder {
 
 button {
   user-select: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 input:-webkit-autofill {
