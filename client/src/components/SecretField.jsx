@@ -1,5 +1,7 @@
 import { LuTriangleAlert, LuEye, LuEyeOff } from './Icons';
 
+import '../styles/FormField.css';
+
 export default function SecretField({ label, name, value, show, onToggle, onInput, placeholder, error }) {
   return (
     <div className="input-secret">

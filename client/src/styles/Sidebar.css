@@ -1,27 +1,19 @@
 div.sidebar {
   position: absolute;
-  top: 0;
+  top: 3rem;
   right: 0;
   width: 6.5rem;
-  border-bottom-left-radius: 0.5rem;
-  box-shadow: rgba(0, 0, 0, 0.375) 0px 1px 6px 2px;
+  border-radius: 0.5rem;
+  box-shadow: rgba(0, 0, 0, 0.125) -3px 3px 3px 0px, papayawhip 3px -3px 0px 0px;
   background-color: papayawhip;
-  width: fit-content;
+  width: 12rem;
   
   &>div.wrapper {
+
     /* padding: 0.5rem; */
     &>ul {
       display: flex;
       flex-direction: column;
-      /* gap: 0.75rem 0; */
-      position: relative;
-      
-      &>span.close {
-        position: absolute;
-        top: 0.85rem;
-        right: 0.25rem;
-        color: darkslateblue;
-      }
       
       &>li {
         
@@ -31,13 +23,25 @@ div.sidebar {
           gap: 0 0.375rem;
           padding: 1rem 3rem 1rem 1rem;
           border-radius: 0.25rem;
-          color: teal;
+          color: darkslateblue;
           
           &.active {
             background-color: orange;
-            color: darkslateblue
+            color: whitesmoke
           }
         }
+      }
+      
+      &>button {
+        display: flex;
+        align-items: center;
+        gap: 0 0.375rem;
+        padding: 1rem 3rem 1rem 1rem;
+        color: orangered;
+        background-color: transparent;
+        font-family: inherit;
+        font-size: 1rem;
+        border: none;
       }
     }
   }

@@ -3,13 +3,14 @@ import { Link } from 'inferno-router';
 
 import FormField from './FormField';
 import SecretField from './SecretField';
-import Alert from './Alert';
+import Modal from './Modal';
 
 import { LuTriangleAlert, LuInfo } from './Icons';
 
 import { nameRegex, mobileRegex, secretRegex } from '../utils/regex';
-import { apiPost } from '../utils/api';
+import { apiFetch } from '../utils/api';
 import { session } from '../utils/session';
+import { toggleModal } from '../utils/helpers';
 
 import '../styles/AuthForm.css';
 
@@ -20,6 +21,7 @@ export default class AuthForm extends Component {
     this.state = {
       fields: this.initFields(mode),
       showSecret: false,
+      loading: false
     };
   }
 
@@ -54,19 +56,17 @@ export default class AuthForm extends Component {
     e.preventDefault();
 
     // Start loading
-    this.props.dispatch({ type: 'setLoading', value: true });
+    this.setState({ loading: true });
 
     const invalid = this.state.fields.find(f => f.error);
     if (invalid) {
+      this.setState({ loading: false })
       this.props.dispatch({
-        type: 'setMany',
+        type: 'setModal',
         value: {
-          modal: {
-            on: true,
-            msg: invalid.error,
-            icon: <LuTriangleAlert size={24} color='red'/>
-          },
-          loading: false
+          on: true,
+          msg: invalid.error,
+          icon: <LuTriangleAlert size={24} color='orangered' />
         }
       });
       return;
@@ -77,26 +77,37 @@ export default class AuthForm extends Component {
       if (f.name !== 'verify') body[f.name] = f.value;
     });
 
-    const data = await apiPost(`/auth/${this.props.mode}`, body);
-    this.props.dispatch({ type: 'setLoading', value: false });
+    const { ok, data } = await apiFetch(
+      `/api/v1/auth/${this.props.mode}`,
+      {
+        method: 'POST',
+        body
+      });
+    this.setState({ loading: false });
 
-    if (data.ok) {
+    if (ok) {
       session.set(data.accessToken);
       if (this.props.mode === 'signup') {
-        this.props.dispatch({type: 'setMany', value: {modal: {on: true, msg: 'Account created! Please login', icon: <LuInfo size={24} color='teal'/>}}});
+        this.props.dispatch({
+          type: 'setModal',
+          value: {
+            on: true,
+            msg: 'Account created! Please login',
+            icon: <LuInfo size={24} color='teal' />
+          }
+        });
         this.props.history.push('/auth/login');
       } else {
+        window.sessionStorage.setItem('User', JSON.stringify(data.user));
         this.props.history.replace('/');
       }
     } else {
       this.props.dispatch({
-        type: 'setMany',
+        type: 'setModal',
         value: {
-          modal: {
-            on: true,
-            msg: data.error,
-            icon: <LuTriangleAlert size={24} color='red'/>
-          }
+          on: true,
+          msg: data.error,
+          icon: <LuTriangleAlert size={24} color='orangered' />
         }
       });
     }
@@ -154,18 +165,18 @@ export default class AuthForm extends Component {
             </small>
 
             <div className="btn-submit">
-              <button type="submit" disabled={this.props.state.loading}>
+              <button type="submit" disabled={this.state.loading}>
                 {isSignup ? 'Signup' : 'Login'}
               </button>
             </div>
           </form>
         </div>
 
-        <Alert
+        <Modal
           on={this.props.state.modal.on}
           msg={this.props.state.modal.msg}
           icon={this.props.state.modal.icon}
-          toggle={() => this.props.dispatch({ type: 'setModalOn', value: !this.props.state.modal.on })}
+          toggle={() => toggleModal(this.props.state.modal, this.props.dispatch)}
         />
       </div>
     );

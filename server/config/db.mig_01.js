@@ -17,28 +17,34 @@ export async function migDb() {
       );
       CREATE TABLE IF NOT EXISTS loans (
         id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-        user_id UUID NOT NULL REFERENCES users(id),
-        amount NUMERIC(10, 2) NOT NULL,
-        interest_rate NUMERIC(5, 2) NOT NULL,
-        status VARCHAR(20) NOT NULL CHECK (status IN ('Pending', 'Approved', 'Disbursed', 'Paid', 'Defaulted', 'Rejected')),
-        application_date TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-        approval_date TIMESTAMPTZ,
-        disbursal_date TIMESTAMPTZ,
-        total_repaid NUMERIC(10, 2) DEFAULT 0.00
+        user_id UUID REFERENCES users(id) ON DELETE CASCADE,
+        principal NUMERIC(12,2) NOT NULL,
+        interest_rate NUMERIC(5,2) NOT NULL,
+        term INT NOT NULL,
+        total_due NUMERIC(12,2) NOT NULL,
+        status VARCHAR(20),
+        applied_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+        disbursed_at TIMESTAMPTZ,
+        due_date TIMESTAMPTZ,
+        closed_at TIMESTAMPTZ
       );
       CREATE TABLE IF NOT EXISTS repayments (
         id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-        loan_id UUID NOT NULL REFERENCES loans(id),
-        due_date DATE NOT NULL,
-        amount_due NUMERIC(10, 2) NOT NULL,
-        status VARCHAR(20) NOT NULL CHECK (status IN ('Pending', 'Paid', 'Due', 'Overdue')),
-        payment_date TIMESTAMPTZ
+        loan_id UUID REFERENCES loans(id) ON DELETE CASCADE,
+        user_id UUID REFERENCES users(id) ON DELETE CASCADE,
+        amount NUMERIC(12,2) NOT NULL,
+        paid_at TIMESTAMPTZ DEFAULT NOW()
       );
-      CREATE TABLE IF NOT EXISTS faqs (
+      CREATE TABLE IF NOT EXISTS messages (
+        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+        user_id UUID REFERENCES users(id) ON DELETE CASCADE,
+        msg TEXT,
+        sent_at TIMESTAMPTZ DEFAULT NOW()
+      );
+      CREATE TABLE IF NOT EXISTS offers (
         id SERIAL PRIMARY KEY,
-        question TEXT NOT NULL,
-        answer TEXT NOT NULL,
-        sort_order INT
+        amount NUMERIC(12,0) NOT NULL,
+        stock INT NOT NULL
       );
     `);
     await client.query('COMMIT');

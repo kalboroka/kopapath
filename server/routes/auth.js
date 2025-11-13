@@ -13,16 +13,16 @@ const router = express.Router();
 function setRefreshCookie(res, token, userId) {
   res.cookie('refreshToken', token, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
+    secure: false,
     signed: true,
-    // sameSite: 'strict',
+    sameSite: 'lax',
     maxAge: 30 * 24 * 60 * 60 * 1000 // 30 days
   });
   res.cookie('uid', userId, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
+    secure: false,
     signed: true,
-    // sameSite: 'strict',
+    sameSite: 'lax',
     maxAge: 30 * 24 * 60 * 60 * 1000
   });
 }
@@ -99,7 +99,7 @@ router.post('/login', async (req, res) => {
     ]);
 
     setRefreshCookie(res, refreshToken, user.id);
-    res.json({ accessToken });
+    res.json({ accessToken, user: { name: user.name, mobile: user.mobile } });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Server error' });
@@ -111,7 +111,7 @@ router.post('/refresh', async (req, res) => {
   const refreshToken = req.signedCookies.refreshToken;
   const userId = req.signedCookies.uid;
   if (!refreshToken || !userId)
-    return res.status(401).json({ error: 'credentials unmatched' });
+    return res.status(401).json({ error: `credentials unmatched. ${refreshToken}:${userId}` });
 
   try {
     const { rows } = await pool.query(

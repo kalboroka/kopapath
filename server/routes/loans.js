@@ -9,7 +9,7 @@ router.get('/', requireAuth, async (req, res) => {
   try {
     const userId = req.user.id;
     const result = await pool.query(
-      'SELECT * FROM loans WHERE user_id = $1 ORDER BY created_at DESC',
+      'SELECT * FROM loans WHERE user_id = $1 ORDER BY applied_at DESC',
       [userId]
     );
     res.json(result.rows);
@@ -27,13 +27,26 @@ router.post('/', requireAuth, async (req, res) => {
     if (!amount || !term) return res.status(400).json({ error: 'Missing fields' });
 
     const result = await pool.query(
-      'INSERT INTO loans (user_id, amount, term, status, created_at) VALUES ($1, $2, $3, $4, NOW()) RETURNING *',
+      'INSERT INTO loans (user_id, amount, term, status, applied_at) VALUES ($1, $2, $3, $4, NOW()) RETURNING *',
       [userId, amount, term, 'pending']
     );
 
     res.status(201).json(result.rows[0]);
   } catch (err) {
     console.error('Create loan error:', err);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+// Loan offers
+router.get('/offers', requireAuth, async (req, res) => {
+  try {
+    const result = await pool.query(
+      'SELECT COALESCE(MAX(amount), 0) AS max_offer FROM offers WHERE stock > 0'
+    );
+    res.json(result.rows[0]);
+  } catch (err) {
+    console.error('Get offers error:', err);
     res.status(500).json({ error: 'Server error' });
   }
 });

@@ -1,4 +1,4 @@
-import '../styles/Alert.css';
+import '../styles/Modal.css';
 
 export default ({ on, msg, icon, toggle }) => {
   return (

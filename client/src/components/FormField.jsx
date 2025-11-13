@@ -1,5 +1,7 @@
 import { LuTriangleAlert } from './Icons';
 
+import '../styles/FormField.css';
+
 export default function FormField({ label, name, type, value, onInput, placeholder, error }) {
   return (
     <div className="input-info">

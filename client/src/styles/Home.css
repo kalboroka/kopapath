@@ -4,7 +4,7 @@ div.home {
   align-items: center;
   
   &>h4 {
-    width: 90%;
+    width: 100%;
     padding: 1rem 0;
     color: darkslateblue;
   }
@@ -14,11 +14,15 @@ div.home {
     flex-direction: column;
     align-items: center;
     gap: 1.5rem 0;
-    background-color: whitesmoke;
-    width: 90%;
+    width: 100%;
     padding: 1.5rem 0;
     box-shadow: rgba(0, 0, 0, 0.375) 0px 1px 6px -2px;
     border-radius: 0.5rem;
+    background-image: url('../assets/imgs/bg.svg');
+    background-repeat: repeat;
+    background-position: left;
+    background-size: contain;
+    background-color: whitesmoke;
     
     &>h3 {
       color: teal;
@@ -30,7 +34,6 @@ div.home {
       border-radius: 0.25rem;
       border: 0;
       background-color: orange;
-      color: darkslateblue;
       font-family: inherit;
       font-weight: bolder;
     }
@@ -65,7 +68,7 @@ div.home {
   &>div.guide {
     display: flex;
     flex-direction: column;
-    padding: 0.25rem 1rem;
+    width: 100%;
     
     >h4 {
       color: darkslateblue;
@@ -98,7 +101,7 @@ div.home {
             background-color: whitesmoke;
             padding: 0.5rem 0.75rem;
             border-radius: 0.5rem;
-            box-shadow: rgba(0, 0, 0, 0.375) 0px 1px 6px -2px;
+            box-shadow: rgba(0, 0, 0, 0.125) -1px 1px 3px 0px;
             
             >h6 {
               color: teal;

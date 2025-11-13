@@ -4,17 +4,14 @@ export default function GuardRoute({ component: WrappedComponent, render, ...res
   const token = window.sessionStorage.getItem('AccessToken');
 
   const renderComponent = (props) => {
-    if (token||1) {
-      return WrappedComponent ? <WrappedComponent {...props} /> : render(props);
-    } else {
-      return <Redirect to="/auth/login" />;
-    }
+    if (!token) return <Redirect to="/auth/login" />;
+
+    if (WrappedComponent) return <WrappedComponent {...props} />;
+    if (render) return render(props);
+
+    // Safety fallback
+    return null;
   };
 
-  return (
-    <Route
-      {...rest}
-      render={renderComponent}
-    />
-  );
+  return <Route {...rest} render={renderComponent} />;
 }

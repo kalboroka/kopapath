@@ -77,9 +77,17 @@ export default {
   },
   devServer: {
     static: path.join(__dirname, "client/public"),
-    historyApiFallback: true, // for SPA routing
+    historyApiFallback: true,
     compress: true,
     port: 4000,
-    hot: true
+    hot: true,
+
+    proxy: [
+      {
+        context: ['/api/v1'],
+        target: 'http://localhost:3000',
+        changeOrigin: true,
+      },
+    ],
   }
 };

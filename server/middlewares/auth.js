@@ -12,7 +12,7 @@ export function requireAuth(req, res, next) {
     const decoded = verifyAccess(token);
     req.user = decoded;
     next();
-  } catch {
-    return res.status(403).json({ error: errMsg });
+  } catch (err){
+    return res.status(403).json({ error: 'token expiry reset' });
   }
 }

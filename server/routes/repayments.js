@@ -10,7 +10,7 @@ router.get('/', requireAuth, async (req, res) => {
     const result = await pool.query(`
       SELECT
         l.id AS loan_id,
-        l.amount AS loan_amount,
+        l.principal AS loan_amount,
         l.interest_rate,
         l.status,
         l.application_date,

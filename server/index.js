@@ -1,10 +1,11 @@
 import express from 'express';
-import path from 'path';
+// import path from 'path';
 
 import { secureApp } from '#middlewares/security.js';
 import { migDb } from '#config/db.mig_01.js';
 import authRoutes from '#routes/auth.js';
-import repayRoutes from '#routes/repayments.js';
+import loanRoutes from '#routes/loans.js';
+// import repayRoutes from '#routes/repayments.js';
 
 const app = express();
 app.use(express.json());
@@ -14,10 +15,12 @@ secureApp(app);
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).json({ error: 'Internal server error' });
+  next();
 });
 
-app.use('/auth', authRoutes);
-app.use('/repay', repayRoutes);
+app.use('/api/v1/auth', authRoutes);
+app.use('/api/v1/loans', loanRoutes);
+// app.use('/api/repay', repayRoutes);
 
 app.listen(process.env.PORT, () => {
   console.log('server started');
