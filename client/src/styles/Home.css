@@ -60,7 +60,9 @@ div.home {
       
       >.text {
         padding: 0 0.5rem;
-        color: teal;
+        color: darkslateblue;
+        font-weight: bold;
+        font-size: 0.875rem;
       }
     }
   }
@@ -72,7 +74,10 @@ div.home {
     
     >h4 {
       color: darkslateblue;
-      padding: 0.5rem 0;
+      margin: 0.75rem 0;
+      padding: 0.125rem 0;
+      border-bottom-left-radius: 0.25rem;
+      border-bottom: 2px solid lightgray;
     }
     
     >div.guide-info {
@@ -98,14 +103,16 @@ div.home {
           }
           
           >.card-info {
-            background-color: whitesmoke;
+            /* background-color: whitesmoke; */
             padding: 0.5rem 0.75rem;
             border-radius: 0.5rem;
-            box-shadow: rgba(0, 0, 0, 0.125) -1px 1px 3px 0px;
-            
+            box-shadow: rgba(0, 0, 0, 0.125) -3px 3px 3px 0px;
+    
             >h6 {
+              display: inline;
               color: teal;
               font-size: 0.8rem;
+              box-shadow: rgba(0, 0, 0, 0.125) 0px 1px 2px 0px;
             }
             
             >p {
@@ -121,14 +128,15 @@ div.home {
   
   &>div.cta-2 {
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
     align-items: center;
-    gap: 1rem 0;
+    gap: 0 0.5rem;
     padding: 1.5rem 0;
     color: darkslateblue;
     
     &>button {
-      padding: 0.5rem 1rem;
+      padding: 0.5rem;
       border-radius: 0.25rem;
       border: 0;
       background-color: orange;

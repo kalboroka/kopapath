@@ -18,11 +18,11 @@ export async function migDb() {
       CREATE TABLE IF NOT EXISTS loans (
         id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
         user_id UUID REFERENCES users(id) ON DELETE CASCADE,
-        principal NUMERIC(12,2) NOT NULL,
-        interest_rate NUMERIC(5,2) NOT NULL,
+        amount NUMERIC(12,2) NOT NULL,
+        rate NUMERIC(5,2) NOT NULL,
         term INT NOT NULL,
         total_due NUMERIC(12,2) NOT NULL,
-        status VARCHAR(20),
+        status VARCHAR(20) NOT NULL DEFAULT 'pending' CHECK(status IN ('pending', 'active', 'done')),
         applied_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
         disbursed_at TIMESTAMPTZ,
         due_date TIMESTAMPTZ,
@@ -41,10 +41,8 @@ export async function migDb() {
         msg TEXT,
         sent_at TIMESTAMPTZ DEFAULT NOW()
       );
-      CREATE TABLE IF NOT EXISTS offers (
-        id SERIAL PRIMARY KEY,
-        amount NUMERIC(12,0) NOT NULL,
-        stock INT NOT NULL
+      CREATE TABLE IF NOT EXISTS bucket (
+        amount NUMERIC(12,2) NOT NULL
       );
     `);
     await client.query('COMMIT');

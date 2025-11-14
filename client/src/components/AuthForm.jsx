@@ -1,16 +1,10 @@
 import { Component } from 'inferno';
 import { Link } from 'inferno-router';
-
 import FormField from './FormField';
 import SecretField from './SecretField';
 import Modal from './Modal';
-
 import { LuTriangleAlert, LuInfo } from './Icons';
-
-import { nameRegex, mobileRegex, secretRegex } from '../utils/regex';
-import { apiFetch } from '../utils/api';
-import { session } from '../utils/session';
-import { toggleModal } from '../utils/helpers';
+import { apiFetch, regex, session } from '../utils';
 
 import '../styles/AuthForm.css';
 
@@ -31,14 +25,21 @@ export default class AuthForm extends Component {
   }
 
   validateField(name, value) {
-    if (name === 'name') return nameRegex.test(value) ? '' : 'invalid name';
-    if (name === 'mobile') return mobileRegex.test(value) ? '' : 'invalid mobile';
-    if (name === 'secret') return secretRegex.test(value) ? '' : 'invalid secret';
+    if (name === 'name') return regex.name.test(value) ? '' : 'invalid name';
+    if (name === 'mobile') return regex.mobile.test(value) ? '' : 'invalid mobile';
+    if (name === 'secret') return regex.secret.test(value) ? '' : 'invalid secret';
     if (name === 'verify') {
       const secret = this.state.fields.find(f => f.name === 'secret')?.value;
       return value === secret ? '' : 'secrets mismatched';
     }
     return '';
+  }
+
+  showModal(msg, color = 'orangered', Icon = LuTriangleAlert) {
+    this.props.dispatch({
+      type: 'setModal',
+      value: { on: true, msg, icon: <Icon size={32} color={color} /> }
+    });
   }
 
   onInput = (e) => {
@@ -61,14 +62,7 @@ export default class AuthForm extends Component {
     const invalid = this.state.fields.find(f => f.error);
     if (invalid) {
       this.setState({ loading: false })
-      this.props.dispatch({
-        type: 'setModal',
-        value: {
-          on: true,
-          msg: invalid.error,
-          icon: <LuTriangleAlert size={24} color='orangered' />
-        }
-      });
+      this.showModal(invalid.error)
       return;
     }
 
@@ -79,37 +73,21 @@ export default class AuthForm extends Component {
 
     const { ok, data } = await apiFetch(
       `/api/v1/auth/${this.props.mode}`,
-      {
-        method: 'POST',
-        body
-      });
+      { method: 'POST', body }
+    );
     this.setState({ loading: false });
 
     if (ok) {
       session.set(data.accessToken);
       if (this.props.mode === 'signup') {
-        this.props.dispatch({
-          type: 'setModal',
-          value: {
-            on: true,
-            msg: 'Account created! Please login',
-            icon: <LuInfo size={24} color='teal' />
-          }
-        });
+        this.showModal('Account created! Please login', 'teal', LuInfo);
         this.props.history.push('/auth/login');
       } else {
-        window.sessionStorage.setItem('User', JSON.stringify(data.user));
-        this.props.history.replace('/');
+        session.set(data.user, 'User');
+        this.props.history.push('/');
       }
     } else {
-      this.props.dispatch({
-        type: 'setModal',
-        value: {
-          on: true,
-          msg: data.error,
-          icon: <LuTriangleAlert size={24} color='orangered' />
-        }
-      });
+      this.showModal(data.error)
     }
   };
 
@@ -122,7 +100,7 @@ export default class AuthForm extends Component {
         <div className="form-wrapper">
           <div className="logo">
             <h1 className="title">KopaPath</h1>
-            <small className="slogan">Future is now</small>
+            <small className="slogan">Future is now!</small>
           </div>
 
           <form onSubmit={this.onSubmit}>
@@ -176,7 +154,7 @@ export default class AuthForm extends Component {
           on={this.props.state.modal.on}
           msg={this.props.state.modal.msg}
           icon={this.props.state.modal.icon}
-          toggle={() => toggleModal(this.props.state.modal, this.props.dispatch)}
+          close={() => this.props.dispatch({ type: 'setModal', value: { on: false } })}
         />
       </div>
     );

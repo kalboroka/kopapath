@@ -1,0 +1,48 @@
+.faq-container {
+  >h4 {
+    border-bottom: 2px solid darkslateblue;
+    border-bottom-left-radius: 0.25rem;
+    margin: 1rem 0;
+    color: darkslateblue;
+  }
+  
+  >.faq-section {
+    margin: 1rem 0;
+    
+    >h4 {
+      color: darkslateblue;
+    }
+    
+    details {
+      border-bottom: 1px solid #ddd;
+      padding: .5rem 0;
+      
+      &[open] summary::after {
+        content: "−";
+      }
+      
+      >summary {
+        cursor: pointer;
+        list-style: none;
+        font-size: 0.9rem;
+        color: teal;
+        
+        &::-webkit-details-marker {
+          display: none;
+        }
+        
+        &::after {
+          content: "+";
+          float: right;
+        }
+      }
+      
+      >.faq-answer {
+        margin-top: .4rem;
+        line-height: 1.5;
+        font-size: 0.95rem;
+        font-style: italic;
+      }
+    }
+  }
+}

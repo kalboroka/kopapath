@@ -1,6 +1,6 @@
 import '../styles/Modal.css';
 
-export default ({ on, msg, icon, toggle }) => {
+export default ({ on, msg, icon, close }) => {
   return (
     on ? (
       <div class="alert-modal">
@@ -9,7 +9,7 @@ export default ({ on, msg, icon, toggle }) => {
             {icon}
             <span class="msg">{msg}</span>
           </div>
-          <button class="toggle" onClick={toggle}>OK</button>
+          <button class="close" onClick={close}>OK</button>
         </div>
       </div>
     ) : null

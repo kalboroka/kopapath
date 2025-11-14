@@ -4,7 +4,7 @@ import { LuCircleQuestionMark, LuHandCoins, /*LuInfo*/ } from '../components/Ico
 import '../styles/Home.css'
 
 const guideInfo = [
-  [1, 'Check Loan Offers', 'See what you qualify for. Borrowable up to KES 25,000 with interest from 15%–25%, depending on repay terms.'],
+  [1, 'Check Loan Offers', 'See what you qualify for. Borrowable up to KES 25,000 with interest from 20%–35%, depending on repay terms.'],
   [2, 'Apply & Get Cash', 'Pick your amount and confirm — funds are sent to your M-Pesa in minutes.'],
   [3, 'Repay Easily', 'Repay within 30 days through M-Pesa. Flexible, transparent, and no hidden fees.']
 ]
@@ -52,8 +52,8 @@ export default (props) => (
       </div>
 
       <div class="cta-2">
-        <h4>Ready For Fair Deals?</h4>
-        <button><Link to='/loans/apply'>LET&#39;S GO</Link></button>
+        <h5>Future is now!</h5>
+        <button><Link to='/loans/apply'>Get Approved</Link></button>
       </div>
     </div>
   </LoMain>

@@ -1,18 +1,17 @@
 import { Component } from 'inferno';
 import { Switch, Route } from 'inferno-router';
 
-import Login from './pages/Login';
-import Signup from './pages/Signup';
+import { Signup, Login } from './pages/auth';
 import Home from './pages/Home';
 import Messages from './pages/Messages';
-import Loans from './pages/Loans';
+import Loans from './pages/loans';
 import FQAs from './pages/FQAs';
 import Account from './pages/Account';
 import About from './pages/About';
 
 import GuardRoute from './components/GuardRoute';
 
-import { appReducer } from './utils/reducers';
+import { appReducer, session } from './utils';
 
 export default class App extends Component {
   state = {
@@ -30,9 +29,9 @@ export default class App extends Component {
   dispatch = (action) => this.setState(appReducer(this.state, action));
 
   homeMounted = (_domNode) => {
-    const user = window.sessionStorage.getItem('User');
+    const user = session.get('User');
     if (user)
-      this.setState({ user: JSON.parse(user) })
+      this.setState({ user })
   }
 
   render() {

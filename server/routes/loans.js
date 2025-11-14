@@ -9,7 +9,7 @@ router.get('/', requireAuth, async (req, res) => {
   try {
     const userId = req.user.id;
     const result = await pool.query(
-      'SELECT * FROM loans WHERE user_id = $1 ORDER BY applied_at DESC',
+      'SELECT id, amount, term, total_due, status FROM loans WHERE user_id = $1 ORDER BY applied_at DESC',
       [userId]
     );
     res.json(result.rows);
@@ -21,14 +21,14 @@ router.get('/', requireAuth, async (req, res) => {
 
 router.post('/', requireAuth, async (req, res) => {
   try {
-    const { amount, term } = req.body;
+    const { amount, term, rate, total_due } = req.body;
     const userId = req.user.id;
 
-    if (!amount || !term) return res.status(400).json({ error: 'Missing fields' });
+    if (!amount || !term || !rate || !total_due) return res.status(400).json({ error: 'Missing fields' });
 
     const result = await pool.query(
-      'INSERT INTO loans (user_id, amount, term, status, applied_at) VALUES ($1, $2, $3, $4, NOW()) RETURNING *',
-      [userId, amount, term, 'pending']
+      'INSERT INTO loans (user_id, amount, term, rate, total_due) VALUES ($1, $2, $3, $4, $5) RETURNING *',
+      [userId, amount, term, rate, total_due]
     );
 
     res.status(201).json(result.rows[0]);
@@ -38,15 +38,29 @@ router.post('/', requireAuth, async (req, res) => {
   }
 });
 
-// Loan offers
-router.get('/offers', requireAuth, async (req, res) => {
+// Loan bucket
+router.get('/bucket', requireAuth, async (req, res) => {
   try {
     const result = await pool.query(
-      'SELECT COALESCE(MAX(amount), 0) AS max_offer FROM offers WHERE stock > 0'
+      'SELECT amount FROM bucket'
     );
     res.json(result.rows[0]);
   } catch (err) {
-    console.error('Get offers error:', err);
+    console.error('Get bucket error:', err);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+// Loan pending
+router.get('/pending', requireAuth, async (req, res) => {
+  try {
+    const result = await pool.query(
+      'SELECT id FROM loans WHERE user_id = $1 AND status = $2 LIMIT 1',
+      [req.user.id, 'pending']
+    );
+    res.json({ exist: result.rows.length > 0 });
+  } catch (err) {
+    console.error('Get pending error:', err);
     res.status(500).json({ error: 'Server error' });
   }
 });

@@ -60,7 +60,7 @@ div[class^="input-"] {
     }
     
     &>label {
-      color: darkslateblue;
+      color: black;
       background-color: orange;
     }
   }

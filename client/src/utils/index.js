@@ -1,6 +1,32 @@
-const BaseURL = ""; // proxy base URL
-// const BaseURL = "http://localhost:3000";
-let Refreshed = false;  // Track if refresh has occurred
+import { appReducer } from './reducers.js';
+
+export { appReducer };
+
+// -----------------------
+// Session
+// -----------------------
+const TOKEN_KEY = 'AccessToken';
+
+export const session = {
+  set(token, key=TOKEN_KEY) {
+    window.sessionStorage.setItem(key, JSON.stringify(token));
+  },
+  get(key=TOKEN_KEY) {
+    return JSON.parse(window.sessionStorage.getItem(key));
+  },
+  clear(key=TOKEN_KEY) {
+    window.sessionStorage.removeItem(key);
+  },
+  isLoggedIn() {
+    return !!window.sessionStorage.getItem(TOKEN_KEY);
+  }
+};
+
+// -----------------------
+// API Fetch
+// -----------------------
+const BaseURL = ""; // "http://localhost:3000";
+let Refreshed = false;
 
 export async function apiFetch(url, options = {}) {
   try {
@@ -31,7 +57,7 @@ export async function apiFetch(url, options = {}) {
           return { ok: false, redirect: '/auth/login', error: 'Session expired, please login again.' };
         }
         const { accessToken } = await _res.json();
-        window.sessionStorage.setItem('AccessToken', accessToken);
+        session.set(accessToken);
 
         return apiFetch(url, { ...options, bearer: accessToken });
       } catch (_err) {
@@ -48,4 +74,13 @@ export async function apiFetch(url, options = {}) {
   } finally {
     Refreshed = false;
   }
+}
+
+// -----------------------
+// Regex
+// -----------------------
+export const regex = {
+  name: /^(?!.*(\.|\s{2,}))(?=.*?\p{L})[\p{L}.'-]+(?: +[\p{L}.'-]+)*$/u,
+  mobile: /^254[1,7][0-9]{8}$/,
+  secret: /^(?!.*\s)(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?])(?=.{8,})/
 }
