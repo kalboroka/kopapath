@@ -53,22 +53,19 @@ div.loan-summary {
       }
       
       thead {
-        border-bottom: 1px solid darkslateblue;
+        background-color: navajowhite;
+        color: teal;
+        border-bottom: 1px solid teal;
       }
       
       tbody>tr {
-        &:nth-child(even) {
+        &:nth-child(odd) {
           background-color: whitesmoke;
         }
         
         &:not(&:last-child) {
           border-bottom: 1px solid lightgray;
         }
-      }
-      
-      th {
-        background-color: teal;
-        color: whitesmoke;
       }
       
       th,
@@ -80,7 +77,7 @@ div.loan-summary {
         white-space: nowrap;
         
         &:not(&:last-child) {
-          border-right: 1px solid lightgray;
+          border-right: 1px solid rgba(0,0,0,0.2);
         }
       }
     }
@@ -186,6 +183,10 @@ div.loan-apply {
         >div.due {
           margin: 1rem 0;
           color: darkslateblue;
+          
+          small {
+            color: orangered;
+          }
         }
         
         >button {

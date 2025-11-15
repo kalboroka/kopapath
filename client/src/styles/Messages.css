@@ -26,7 +26,6 @@
         
         >.msg-text {
           font-size: 0.9rem;
-          color: teal;
           margin-bottom: 0.125rem;
         }
         
@@ -34,7 +33,7 @@
           text-align: right;
           font-size: 0.7rem;
           font-style: italic;
-          color: gray;
+          color: teal;
         }
       }
     }

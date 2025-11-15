@@ -41,6 +41,10 @@ div[class^="input-"] {
       outline: none;
       -webkit-text-fill-color: teal !important;
       color: teal !important;
+      
+      &::placeholder {
+        opacity: 0.375;
+      }
     }
   }
   

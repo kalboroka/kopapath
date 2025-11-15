@@ -83,6 +83,7 @@ export default class LoanApply extends Component {
 
   render() {
     const { loading, loanable, fields } = this.state;
+    const term = (()=>{const t=Number(fields[1].value);return t?(t>21?30:t>14?21:t>7?14:7):null;})();
     if (loading) return <LoMain {...this.props}><div class="loader"><h4>Loading...</h4></div></LoMain>;
     return (
       <LoMain {...this.props}>
@@ -104,7 +105,7 @@ export default class LoanApply extends Component {
                         type="number" placeholder={f.name === 'term' ? '7 Days' : '10000'}
                         value={f.value} onInput={this.onInput} error={f.error} />
                     ))}
-                    <div class="due"><h5>Total Due: KES {fmt(calcDue(Number(fields[0].value), Number(fields[1].value)))}</h5></div>
+                    <div class="due"><h5>Amount Due: KES {fmt(calcDue(Number(fields[0].value), Number(fields[1].value)))} {term&&<small>in {term} days</small>}</h5></div>
                     <button type="submit" disabled={this.state.loading}>Apply</button>
                   </form>
                   <div class="reminder">

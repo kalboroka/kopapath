@@ -20,16 +20,14 @@ router.post('/', async (req, res, next) => {
 });
 */
 
-// FETCH (paginated + unread first)
+// Messages list
 router.get('/', requireAuth, async (req, res, next) => {
   try {
     const r = await pool.query(
       `SELECT *
        FROM messages
        WHERE user_id=$1
-       ORDER BY
-         ack_at IS NOT NULL,  -- unread first
-         sent_at DESC`,
+       ORDER BY sent_at`,
       [req.user.id]
     );
 
