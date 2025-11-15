@@ -8,7 +8,6 @@ const fmt = x => new Intl.NumberFormat('en-KE', { maximumFractionDigits: 0 }).fo
 const cap = s => s ? s[0].toUpperCase() + s.slice(1).toLowerCase() : s;
 const calcRate = t => t ? (t > 21 ? 0.35 : t > 14 ? 0.3 : t > 7 ? 0.25 : 0.2) : 0;
 const calcDue = (a, t) => a ? ((t ? 1 : 0) + calcRate(t)) * a : 0;
-const ts=t=>{let d=new Date();d.setDate(d.getDate()+t);const p=n=>(n<10?"0":"")+n,ms=(""+d.getMilliseconds()*1e3).padStart(6,0),o=d.getTimezoneOffset(),s=o<=0?"+":"-",m=Math.abs(o),tz=`${s}${p(m/60|0)}:${p(m%60)}`;return`${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}:${p(d.getSeconds())}.${ms}${tz}`;}
 
 export default class LoanApply extends Component {
   state = {
@@ -43,6 +42,7 @@ export default class LoanApply extends Component {
       const { ok, data } = await apiFetch('/api/v1/loans/pending', { bearer: session.get() });
       if (!ok) throw new Error(data.error);
       if (data.exist) {
+        this.props.history.push('/');
         this.showModal('Recent application underway')
         return
       };
@@ -57,12 +57,13 @@ export default class LoanApply extends Component {
     try {
       const { ok, data } = await apiFetch('/api/v1/loans', {
         method: 'POST',
-        body: { ...body, rate: calcRate(body.term), total_due: due, due_date: ts(body.term) },
+        body: { ...body, rate: calcRate(body.term), total_due: due },
         bearer: session.get()
       });
       ok ? this.showModal('Loan application success', 'teal', LuInfo)
         : this.showModal(data.error);
     } catch (err) { this.showModal(err.message); }
+    this.props.history.push('/')
   };
 
   showModal(msg, color = 'orangered', Icon = LuTriangleAlert) {

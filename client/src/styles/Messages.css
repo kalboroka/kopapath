@@ -5,8 +5,38 @@
     margin: 1rem 0;
     color: darkslateblue;
   }
+  
   >.alt {
     color: gray;
     font-style: italic;
+  }
+  
+  >.msg-list {
+    >li {
+      >.msg-body {
+        display: flex;
+        flex-direction: column;
+        max-width: 75%;
+        width: fit-content;
+        padding: 0.25rem 0.5rem;
+        margin-bottom: 0.5rem;
+        border-radius: 0.25rem;
+        background-color: whitesmoke;
+        box-shadow: rgba(0, 0, 0, 0.125) -3px 3px 3px 0px;
+        
+        >.msg-text {
+          font-size: 0.9rem;
+          color: teal;
+          margin-bottom: 0.125rem;
+        }
+        
+        >.msg-time {
+          text-align: right;
+          font-size: 0.7rem;
+          font-style: italic;
+          color: gray;
+        }
+      }
+    }
   }
 }

@@ -4,26 +4,33 @@ import LoMain from '../layouts/LoMain';
 
 import '../styles/Messages.css';
 
-// Single message component
+export function fmtDate(d) {
+  const date = new Date(d);
+  const diffH = (new Date() - date) / (1000 * 60 * 60);
+
+  if (diffH < 24) return date.toLocaleTimeString('en-KE', { hour12: true});
+  if (diffH < 48) return 'yesterday';
+  return date.toISOString().slice(0, 10);
+}
+
 class Message extends Component {
   componentDidMount() {
-    const { msgId } = this.props;
-
-    // Fire-and-forget ack, warn on error
-    apiFetch(`/api/v1/messages/${msgId}/ack`, {
-      method: 'PATCH',
-      bearer: session.get()
-    }).catch(err => console.warn('Message ack failed:', err.message));
+    const { msgInfo: { id, ack_at } } = this.props;
+    if (!ack_at) {
+      apiFetch(`/api/v1/messages/${id}/ack`, {
+        method: 'PATCH',
+        bearer: session.get()
+      }).catch(err => console.warn('Message ack failed:', err.message));
+    }
   }
 
   render() {
-    const { msgText, sentAt } = this.props;
-    const formattedTime = new Date(sentAt).toLocaleString();
+    const { msgInfo: { msg, sent_at } } = this.props;
 
     return (
       <div className='msg-body'>
-        <p className='msg-text'>{msgText}</p>
-        <time className='msg-time'>{formattedTime}</time>
+        <p className='msg-text'>{msg}</p>
+        <time className='msg-time'>{fmtDate(sent_at)}</time>
       </div>
     );
   }
@@ -76,7 +83,7 @@ export default class Messages extends Component {
             <ul className="msg-list">
               {msgList.map(m => (
                 <li key={m.id}>
-                  <Message msgId={m.id} msgText={m.msg} sentAt={m.sent_at} />
+                  <Message msgInfo={m} />
                 </li>
               ))}
             </ul>
