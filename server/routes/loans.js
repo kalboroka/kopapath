@@ -5,7 +5,7 @@ import { requireAuth } from '#middlewares/auth.js';
 
 const router = express.Router();
 
-router.get('/', requireAuth, async (req, res) => {
+router.get('/', requireAuth, async (req, res, next) => {
   try {
     const userId = req.user.id;
     const result = await pool.query(
@@ -15,39 +15,37 @@ router.get('/', requireAuth, async (req, res) => {
     res.json(result.rows);
   } catch (err) {
     console.error('Get loans error:', err);
-    res.status(500).json({ error: 'Server error' });
+    next(err)
   }
 });
 
-router.post('/', requireAuth, async (req, res) => {
+router.post('/', requireAuth, async (req, res, next) => {
   try {
     const { amount, term, rate, total_due } = req.body;
     const userId = req.user.id;
 
-    if (!amount || !term || !rate || !total_due) return res.status(400).json({ error: 'Missing fields' });
+    if (!amount || !term || !rate || !total_due ) return res.status(400).json({ error: 'Missing fields' });
 
     const result = await pool.query(
-      'INSERT INTO loans (user_id, amount, term, rate, total_due) VALUES ($1, $2, $3, $4, $5) RETURNING *',
-      [userId, amount, term, rate, total_due]
+      'INSERT INTO loans (user_id, amount, term, rate, total_due, due_date) VALUES ($1, $2, $3, $4, $5, NOW() + make_interval(days => $6)) RETURNING *',
+      [userId, amount, term, rate, total_due, term]
     );
 
     res.status(201).json(result.rows[0]);
   } catch (err) {
-    console.error('Create loan error:', err);
-    res.status(500).json({ error: 'Server error' });
+    next(err)
   }
 });
 
 // Loan bucket
-router.get('/bucket', requireAuth, async (req, res) => {
+router.get('/bucket', requireAuth, async (req, res, next) => {
   try {
     const result = await pool.query(
       'SELECT amount FROM bucket'
     );
     res.json(result.rows[0]);
   } catch (err) {
-    console.error('Get bucket error:', err);
-    res.status(500).json({ error: 'Server error' });
+    next(err)
   }
 });
 
@@ -60,8 +58,7 @@ router.get('/pending', requireAuth, async (req, res) => {
     );
     res.json({ exist: result.rows.length > 0 });
   } catch (err) {
-    console.error('Get pending error:', err);
-    res.status(500).json({ error: 'Server error' });
+    next(err)
   }
 });
 
@@ -79,8 +76,7 @@ router.get('/:id', requireAuth, async (req, res) => {
     if (!result.rows.length) return res.status(404).json({ error: 'Loan not found' });
     res.json(result.rows[0]);
   } catch (err) {
-    console.error('Loan detail error:', err);
-    res.status(500).json({ error: 'Server error' });
+    next(err)
   }
 });
 

@@ -46,7 +46,7 @@ export default class LoanHist extends Component {
                 )}</tbody>
               </table>
             </>
-            ) : <p>No past loans!</p>}
+            ) : <p>Oops! No past loans!</p>}
           </div>
         </div>
       </LoMain>

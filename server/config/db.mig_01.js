@@ -7,6 +7,7 @@ export async function migDb() {
     await client.query('BEGIN');
     await client.query(`
       CREATE EXTENSION IF NOT EXISTS "pgcrypto";
+      
       CREATE TABLE IF NOT EXISTS users (
         id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
         name VARCHAR(100) NOT NULL,
@@ -15,33 +16,39 @@ export async function migDb() {
         refresh_token TEXT,
         created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
       );
+      
       CREATE TABLE IF NOT EXISTS loans (
         id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-        user_id UUID REFERENCES users(id) ON DELETE CASCADE,
+        user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
         amount NUMERIC(12,2) NOT NULL,
         rate NUMERIC(5,2) NOT NULL,
-        term INT NOT NULL,
+        term SMALLINT NOT NULL,
         total_due NUMERIC(12,2) NOT NULL,
-        status VARCHAR(20) NOT NULL DEFAULT 'pending' CHECK(status IN ('pending', 'active', 'done')),
+        status VARCHAR(10) NOT NULL DEFAULT 'pending' CHECK(status IN ('pending','active','done')),
         applied_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
         disbursed_at TIMESTAMPTZ,
-        due_date TIMESTAMPTZ,
+        due_date TIMESTAMPTZ NOT NULL,
         closed_at TIMESTAMPTZ
       );
+      
       CREATE TABLE IF NOT EXISTS repayments (
         id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-        loan_id UUID REFERENCES loans(id) ON DELETE CASCADE,
-        user_id UUID REFERENCES users(id) ON DELETE CASCADE,
+        loan_id UUID NOT NULL REFERENCES loans(id) ON DELETE CASCADE,
+        user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
         amount NUMERIC(12,2) NOT NULL,
-        paid_at TIMESTAMPTZ DEFAULT NOW()
+        paid_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
       );
+      
       CREATE TABLE IF NOT EXISTS messages (
         id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-        user_id UUID REFERENCES users(id) ON DELETE CASCADE,
-        msg TEXT,
-        sent_at TIMESTAMPTZ DEFAULT NOW()
+        user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+        msg TEXT NOT NULL,
+        sent_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+        ack_at TIMESTAMPTZ
       );
+      
       CREATE TABLE IF NOT EXISTS bucket (
+        id SMALLINT PRIMARY KEY DEFAULT 1,
         amount NUMERIC(12,2) NOT NULL
       );
     `);

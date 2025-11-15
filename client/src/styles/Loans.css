@@ -35,11 +35,9 @@ div.loan-summary {
     }
     
     >p {
-      color: teal;
+      color: gray;
       font-style: italic;
-      font-weight: bold;
-      text-align: center;
-      padding-top: 1rem;
+      margin: 1rem 0;
     }
     
     >table {
@@ -114,14 +112,6 @@ div.loan-repay {
       text-decoration: underline dashed orangered 2px;
     }
     
-    >p.alt {
-      text-align: center;
-      font-style: italic;
-      font-weight: bold;
-      color: teal;
-      padding-top: 1rem;
-    }
-    
     >ul>li {
       display: flex;
       align-items: center;
@@ -143,10 +133,9 @@ div.loan-apply {
   >div.info {
     
     >p.alt {
-      text-align: center;
+      color: gray;
       font-style: italic;
-      font-weight: bold;
-      color: teal;
+      margin: 1rem 0;
     }
     
     >div.loan-offers {
@@ -193,6 +182,7 @@ div.loan-apply {
             width: 5rem;
           }
         }
+        
         >div.due {
           margin: 1rem 0;
           color: darkslateblue;

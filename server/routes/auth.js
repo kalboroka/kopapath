@@ -28,7 +28,7 @@ function setRefreshCookie(res, token, userId) {
 }
 
 /* -------------------- SIGNUP -------------------- */
-router.post('/signup', async (req, res) => {
+router.post('/signup', async (req, res, next) => {
   const { name, mobile, secret } = req.body;
   if (!name || !mobile || !secret || secret.length < 8)
     return res.status(400).json({ error: 'credentials unmatched' });
@@ -67,13 +67,12 @@ router.post('/signup', async (req, res) => {
     setRefreshCookie(res, refreshToken, newUser.id);
     res.status(201).json({ accessToken });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'Server error' });
+    next(err)
   }
 });
 
 /* -------------------- LOGIN -------------------- */
-router.post('/login', async (req, res) => {
+router.post('/login', async (req, res, next) => {
   const { mobile, secret } = req.body;
   if (!mobile || !secret)
     return res.status(400).json({ error: 'credentials unmatched' });
@@ -101,13 +100,12 @@ router.post('/login', async (req, res) => {
     setRefreshCookie(res, refreshToken, user.id);
     res.json({ accessToken, user: { name: user.name, mobile: user.mobile } });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'Server error' });
+    next(err)
   }
 });
 
 /* -------------------- REFRESH -------------------- */
-router.post('/refresh', async (req, res) => {
+router.post('/refresh', async (req, res, next) => {
   const refreshToken = req.signedCookies.refreshToken;
   const userId = req.signedCookies.uid;
   if (!refreshToken || !userId)
@@ -138,13 +136,12 @@ router.post('/refresh', async (req, res) => {
     setRefreshCookie(res, newRefresh, user.id);
     res.json({ accessToken: newAccess });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'Server error' });
+    next(err)
   }
 });
 
 /* -------------------- LOGOUT -------------------- */
-router.post('/logout', requireAuth, async (req, res) => {
+router.post('/logout', requireAuth, async (req, res, next) => {
   try {
     await pool.query('UPDATE users SET refresh_token=NULL WHERE id=$1', [
       req.user.id
@@ -153,8 +150,7 @@ router.post('/logout', requireAuth, async (req, res) => {
     res.clearCookie('uid');
     res.status(200).json({ message: 'Logged out successfully' });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'Server error' });
+    next(err)
   }
 });
 

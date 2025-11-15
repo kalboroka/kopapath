@@ -1,0 +1,12 @@
+.msg-container {
+  >h4 {
+    border-bottom: 2px solid darkslateblue;
+    border-bottom-left-radius: 0.25rem;
+    margin: 1rem 0;
+    color: darkslateblue;
+  }
+  >.alt {
+    color: gray;
+    font-style: italic;
+  }
+}
