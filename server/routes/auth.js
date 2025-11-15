@@ -73,14 +73,14 @@ router.post('/signup', async (req, res, next) => {
 
 /* -------------------- LOGIN -------------------- */
 router.post('/login', async (req, res, next) => {
-  const { mobile, secret } = req.body;
-  if (!mobile || !secret)
+  const { userid, secret } = req.body;
+  if (!userid || !secret)
     return res.status(400).json({ error: 'credentials unmatched' });
 
   try {
     const { rows } = await pool.query(
-      'SELECT id, name, mobile, email, secret, refresh_token FROM users WHERE mobile=$1',
-      [mobile]
+      'SELECT id, name, mobile, email, secret, refresh_token FROM users WHERE mobile=$1 OR email=$2',
+      [userid, userid]
     );
     const user = rows[0];
     if (!user) return res.status(404).json({ error: 'User not found' });

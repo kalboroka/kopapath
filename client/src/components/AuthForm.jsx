@@ -3,7 +3,7 @@ import { Link } from 'inferno-router';
 import FormField from './FormField';
 import SecretField from './SecretField';
 import Modal from './Modal';
-import {  LuCircleAlert, LuInfo } from './Icons';
+import { LuCircleAlert, LuInfo } from './Icons';
 import { apiFetch, regex, session } from '../utils';
 
 import '../styles/AuthForm.css';
@@ -20,12 +20,13 @@ export default class AuthForm extends Component {
   }
 
   initFields(mode) {
-    const used = mode === 'signup' ? ['name', 'mobile', 'email', 'secret', 'verify'] : ['mobile', 'secret'];
+    const used = mode === 'signup' ? ['name', 'mobile', 'email', 'secret', 'verify'] : ['userid', 'secret'];
     return used.map(name => ({ name, value: '', error: '' }));
   }
 
   validateField(name, value) {
     if (name === 'name') return regex.name.test(value) ? '' : 'invalid name';
+    if (name === 'userid') return (regex.mobile.test(value) || regex.email.test(value)) ? '' : 'invalid userid';
     if (name === 'mobile') return regex.mobile.test(value) ? '' : 'invalid mobile';
     if (name === 'email') return regex.email.test(value) ? '' : 'invalid email';
     if (name === 'secret') return regex.secret.test(value) ? '' : 'invalid secret';
@@ -36,7 +37,7 @@ export default class AuthForm extends Component {
     return '';
   }
 
-  showModal(msg, color = 'orangered', Icon =  LuCircleAlert) {
+  showModal(msg, color = 'orangered', Icon = LuCircleAlert) {
     this.props.dispatch({
       type: 'setModal',
       value: { on: true, msg, icon: <Icon size={32} color={color} /> }
@@ -113,7 +114,7 @@ export default class AuthForm extends Component {
                     label={f.name === 'verify' ? 'Verify' : 'Secret'}
                     name={f.name}
                     value={f.value}
-                    placeholder={f.name === 'verify' ? 're-enter secret' : 'StronG$ecr3t'}
+                    placeholder={f.name === 'verify' ? 're-enter secret' : 'enter secret'}
                     show={this.state.showSecret}
                     onToggle={this.toggleMask}
                     onInput={this.onInput}
@@ -124,10 +125,10 @@ export default class AuthForm extends Component {
               return (
                 <FormField
                   key={f.name}
-                  label={f.name === 'mobile' ? 'Mobile' : f.name === 'name' ? 'Name' : 'Email'}
+                  label={f.name === 'mobile' ? 'Mobile' : f.name === 'name' ? 'Name' : isSignup ? 'Email' : 'UserId'}
                   name={f.name}
-                  type={f.name === 'mobile' ? 'tel' : f.name === 'name' ? 'text' : 'email'}
-                  placeholder={f.name === 'mobile' ? '254X-XX-XXX-XXX' : f.name === 'name' ? 'Full Name' : 'user@org.com'}
+                  type={f.name === 'mobile' ? 'tel' : f.name === 'email' ? 'email' : 'text'}
+                  placeholder={f.name === 'mobile' ? '254X-XX-XXX-XXX' : f.name === 'name' ? 'Full Name' : isSignup ? 'user@org.com' : 'email or mobile'}
                   value={f.value}
                   onInput={this.onInput}
                   error={f.error}
