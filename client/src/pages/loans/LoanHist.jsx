@@ -1,7 +1,7 @@
 import { Component } from 'inferno';
 import { Link } from 'inferno-router';
 import LoMain from '../../layouts/LoMain';
-import { LuTriangleAlert } from '../../components/Icons';
+import {  LuCircleAlert } from '../../components/Icons';
 import { apiFetch, session } from '../../utils';
 
 const fmt = x => new Intl.NumberFormat('en-KE', { maximumFractionDigits: 0 }).format(x);
@@ -17,7 +17,7 @@ export default class LoanHist extends Component {
     } catch (err) {
       this.props.dispatch({
         type: 'setModal',
-        value: { on: true, msg: err.message, icon: <LuTriangleAlert size={32} color="orangered" /> }
+        value: { on: true, msg: err.message, icon: < LuCircleAlert size={32} color="orangered" /> }
       });
       this.setState({ loading: false });
     }

@@ -3,7 +3,7 @@ import { Link } from 'inferno-router';
 import FormField from './FormField';
 import SecretField from './SecretField';
 import Modal from './Modal';
-import { LuTriangleAlert, LuInfo } from './Icons';
+import {  LuCircleAlert, LuInfo } from './Icons';
 import { apiFetch, regex, session } from '../utils';
 
 import '../styles/AuthForm.css';
@@ -20,13 +20,14 @@ export default class AuthForm extends Component {
   }
 
   initFields(mode) {
-    const used = mode === 'signup' ? ['name', 'mobile', 'secret', 'verify'] : ['mobile', 'secret'];
+    const used = mode === 'signup' ? ['name', 'mobile', 'email', 'secret', 'verify'] : ['mobile', 'secret'];
     return used.map(name => ({ name, value: '', error: '' }));
   }
 
   validateField(name, value) {
     if (name === 'name') return regex.name.test(value) ? '' : 'invalid name';
     if (name === 'mobile') return regex.mobile.test(value) ? '' : 'invalid mobile';
+    if (name === 'email') return regex.email.test(value) ? '' : 'invalid email';
     if (name === 'secret') return regex.secret.test(value) ? '' : 'invalid secret';
     if (name === 'verify') {
       const secret = this.state.fields.find(f => f.name === 'secret')?.value;
@@ -35,7 +36,7 @@ export default class AuthForm extends Component {
     return '';
   }
 
-  showModal(msg, color = 'orangered', Icon = LuTriangleAlert) {
+  showModal(msg, color = 'orangered', Icon =  LuCircleAlert) {
     this.props.dispatch({
       type: 'setModal',
       value: { on: true, msg, icon: <Icon size={32} color={color} /> }
@@ -123,10 +124,10 @@ export default class AuthForm extends Component {
               return (
                 <FormField
                   key={f.name}
-                  label={f.name === 'mobile' ? 'Mobile' : 'Name'}
+                  label={f.name === 'mobile' ? 'Mobile' : f.name === 'name' ? 'Name' : 'Email'}
                   name={f.name}
-                  type={f.name === 'mobile' ? 'tel' : 'text'}
-                  placeholder={f.name === 'mobile' ? '254X-XX-XXX-XXX' : 'Full Name'}
+                  type={f.name === 'mobile' ? 'tel' : f.name === 'name' ? 'text' : 'email'}
+                  placeholder={f.name === 'mobile' ? '254X-XX-XXX-XXX' : f.name === 'name' ? 'Full Name' : 'user@org.com'}
                   value={f.value}
                   onInput={this.onInput}
                   error={f.error}

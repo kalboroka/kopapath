@@ -1,6 +1,6 @@
 import { linkEvent } from 'inferno';
 import { NavLink } from 'inferno-router';
-import { LuCircleQuestionMark, LuCoins, LuHome, LuMessageCircle, LuInfo, LuCircleUser, LuLogOut, LuTriangleAlert } from '../components/Icons';
+import { LuCircleQuestionMark, LuCoins, LuHome, LuMessageCircle, LuInfo, LuCircleUser, LuLogOut,  LuCircleAlert } from '../components/Icons';
 import { apiFetch, session } from '../utils';
 
 import '../styles/Sidebar.css';
@@ -25,7 +25,7 @@ const onClick = async (props, _event) => {
       value: {
         on: true,
         msg: data.error,
-        icon: <LuTriangleAlert size={32} color='red' />
+        icon: < LuCircleAlert size={32} color='red' />
       }
     })
   }

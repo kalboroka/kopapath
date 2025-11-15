@@ -1,4 +1,4 @@
-import { LuTriangleAlert } from './Icons';
+import {  LuCircleAlert } from './Icons';
 
 import '../styles/FormField.css';
 
@@ -14,7 +14,7 @@ export default function FormField({ label, name, type, value, onInput, placehold
         onInput={onInput}
         required
       />
-      {error && <LuTriangleAlert />}
+      {error && < LuCircleAlert />}
     </div>
   );
 }

@@ -4,9 +4,9 @@ import { LuCircleQuestionMark, LuHandCoins, /*LuInfo*/ } from '../components/Ico
 import '../styles/Home.css'
 
 const guideInfo = [
-  [1, 'Check Loan Offers', 'See what you qualify for. Borrowable up to KES 25,000 with interest from 20%–35%, depending on repay terms.'],
-  [2, 'Apply & Get Cash', 'Pick your amount and confirm — funds are sent to your M-Pesa in minutes.'],
-  [3, 'Repay Easily', 'Repay within 30 days through M-Pesa. Flexible, transparent, and no hidden fees.']
+  [1, 'Check Loan Offers', <span>See what you qualify for. Borrowable up to <b>KES 25,000</b> with interest from <b>20%–35%</b>, depending on repay terms.</span>],
+  [2, 'Apply & Get Cash', <span>Pick your amount and confirm — funds are sent to your M-Pesa in minutes.</span>],
+  [3, 'Repay Easily', <span>Repay loan through M-Pesa <b>promptly</b>. Flexible, transparent, and no hidden fees.</span>]
 ]
 const greeting = () => {
   const hrs = new Date().getHours();

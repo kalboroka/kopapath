@@ -12,6 +12,7 @@ export async function migDb() {
         id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
         name VARCHAR(100) NOT NULL,
         mobile VARCHAR(20) NOT NULL UNIQUE,
+        email VARCHAR(150) NOT NULL UNIQUE,
         secret TEXT NOT NULL,
         refresh_token TEXT,
         created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()

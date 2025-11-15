@@ -29,15 +29,15 @@ function setRefreshCookie(res, token, userId) {
 
 /* -------------------- SIGNUP -------------------- */
 router.post('/signup', async (req, res, next) => {
-  const { name, mobile, secret } = req.body;
-  if (!name || !mobile || !secret || secret.length < 8)
+  const { name, mobile, email, secret } = req.body;
+  if (!name || !mobile || !email || !secret )
     return res.status(400).json({ error: 'credentials unmatched' });
 
   try {
     // Check if user already exists
     const { rows: existing } = await pool.query(
-      'SELECT id FROM users WHERE mobile=$1',
-      [mobile]
+      'SELECT id FROM users WHERE mobile=$1 OR email=$2',
+      [mobile, email]
     );
     if (existing.length > 0)
       return res.status(409).json({ error: 'User exists' });
@@ -47,15 +47,15 @@ router.post('/signup', async (req, res, next) => {
 
     // Create new user
     const result = await pool.query(
-      `INSERT INTO users (name, mobile, secret)
-       VALUES ($1, $2, $3)
-       RETURNING id, name, mobile`,
-      [name, mobile, hashedSecret]
+      `INSERT INTO users (name, mobile, email, secret)
+       VALUES ($1, $2, $3, $4)
+       RETURNING id, name, mobile, email`,
+      [name, mobile, email, hashedSecret]
     );
     const newUser = result.rows[0];
 
     // Generate tokens
-    const accessToken = signAccess({ id: newUser.id, mobile: newUser.mobile });
+    const accessToken = signAccess({ id: newUser.id, mobile: newUser.mobile, email: newUser.email });
     const refreshToken = newRefreshToken();
     const hashedRefresh = await hash(refreshToken);
 
@@ -79,7 +79,7 @@ router.post('/login', async (req, res, next) => {
 
   try {
     const { rows } = await pool.query(
-      'SELECT id, name, mobile, secret, refresh_token FROM users WHERE mobile=$1',
+      'SELECT id, name, mobile, email, secret, refresh_token FROM users WHERE mobile=$1',
       [mobile]
     );
     const user = rows[0];
@@ -88,7 +88,7 @@ router.post('/login', async (req, res, next) => {
     const secretOk = await compare(secret, user.secret);
     if (!secretOk) return res.status(401).json({ error: 'credentials unmatched' });
 
-    const accessToken = signAccess({ id: user.id, mobile: user.mobile });
+    const accessToken = signAccess({ id: user.id, mobile: user.mobile, email: user.email });
     const refreshToken = newRefreshToken();
     const hashedRefresh = await hash(refreshToken);
 
@@ -113,7 +113,7 @@ router.post('/refresh', async (req, res, next) => {
 
   try {
     const { rows } = await pool.query(
-      'SELECT id, mobile, refresh_token FROM users WHERE id=$1',
+      'SELECT id, mobile, email, refresh_token FROM users WHERE id=$1',
       [userId]
     );
     const user = rows[0];
@@ -124,7 +124,7 @@ router.post('/refresh', async (req, res, next) => {
     if (!match) return res.status(403).json({ error: 'credentials unmatched' });
 
     // Rotate refresh token
-    const newAccess = signAccess({ id: user.id, mobile: user.mobile });
+    const newAccess = signAccess({ id: user.id, mobile: user.mobile, email: user.email });
     const newRefresh = newRefreshToken();
     const hashedNewRefresh = await hash(newRefresh);
 

@@ -1,4 +1,4 @@
-import { LuTriangleAlert, LuEye, LuEyeOff } from './Icons';
+import {  LuCircleAlert, LuEye, LuEyeOff } from './Icons';
 
 import '../styles/FormField.css';
 
@@ -22,7 +22,7 @@ export default function SecretField({ label, name, value, show, onToggle, onInpu
       >
         {show ? <LuEyeOff size={18} /> : <LuEye size={18} />}
       </button>
-      {error && <LuTriangleAlert />}
+      {error && < LuCircleAlert />}
     </div>
   );
 }

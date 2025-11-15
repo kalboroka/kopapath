@@ -5,7 +5,7 @@ div[class^="input-"] {
   position: relative;
   height: 2.5rem;
   border-radius: 0.25rem;
-  border-bottom: 2px solid teal;
+  border-bottom: 1px solid #66b2b2;
   
   &>span {
     position: absolute;
@@ -22,7 +22,7 @@ div[class^="input-"] {
     color: teal;
     border-radius: 0.25rem 0.25rem 0 0;
     padding-top: 0.2rem;
-    padding-left: 0.125rem;
+    padding-left: 0.25rem;
   }
   
   &>input {
@@ -43,7 +43,7 @@ div[class^="input-"] {
       color: teal !important;
       
       &::placeholder {
-        opacity: 0.375;
+        visibility: hidden;
       }
     }
   }
@@ -56,7 +56,7 @@ div[class^="input-"] {
   }
   
   &:has(input:focus) {
-    border-bottom: 2px solid orange;
+    border-bottom: 1.25px solid darkorange;
     border-bottom-left-radius: 0;
     
     &>button>span.lu-icon {

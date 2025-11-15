@@ -82,5 +82,6 @@ export async function apiFetch(url, options = {}) {
 export const regex = {
   name: /^(?!.*(\.|\s{2,}))(?=.*?\p{L})[\p{L}.'-]+(?: +[\p{L}.'-]+)*$/u,
   mobile: /^254[1,7][0-9]{8}$/,
+  email: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
   secret: /^(?!.*\s)(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?])(?=.{8,})/
 }
