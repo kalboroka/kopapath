@@ -1,0 +1,48 @@
+.about-container {
+  >h4 {
+    border-bottom: 2px solid darkslateblue;
+    border-bottom-left-radius: 0.25rem;
+    margin-top: 1rem;
+    color: darkslateblue;
+  }
+  >.info {
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+    
+    >p {
+      margin-bottom: 0.75rem;
+      box-shadow: rgba(0, 0, 0, 0.075) -3px 3px 3px 0px;
+      padding: 0.5rem;
+      border-radius: 0.5rem;
+      
+      >strong {
+        color: darkslateblue;
+      }
+      >em {
+        color: teal;
+      }
+      
+      &.contact {
+        display: flex;
+        flex-direction: column;
+        
+        >h4 {
+          color: teal;
+        }
+        
+        >a,>span {
+          display: flex;
+          align-items: center;
+          margin-left: 1rem;
+          
+          >.lu-icon{
+            color: darkslateblue;
+          }
+        }
+        >a>span.text {
+          color: hotpink;
+        }
+      }
+    }
+  }
+}

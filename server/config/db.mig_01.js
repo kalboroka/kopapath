@@ -15,6 +15,8 @@ export async function migDb() {
         email VARCHAR(150) NOT NULL UNIQUE,
         secret TEXT NOT NULL,
         refresh_token TEXT,
+        reset_token TEXT,
+        reset_expires TIMESTAMPTZ,
         created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
       );
       
@@ -52,6 +54,8 @@ export async function migDb() {
         id SMALLINT PRIMARY KEY DEFAULT 1,
         amount NUMERIC(12,2) NOT NULL
       );
+      
+      INSERT INTO bucket(amount) VALUES(0) ON CONFLICT(id) DO NOTHING;
     `);
     await client.query('COMMIT');
     console.log('db migrations done');

@@ -1,4 +1,4 @@
-import { createElement, Asterisk, CircleAlert, CircleQuestionMark,  CircleUser, Coins, Eye, EyeOff, HandCoins, Home, Info, LogOut, Menu, MessageCircleMore, X } from 'lucide';
+import { createElement, Asterisk, CircleAlert, CircleQuestionMark,  CircleUser, Coins, Eye, EyeOff, HandCoins, Home, Info, LogOut, Mail, Menu, MessageCircleMore, Phone, X } from 'lucide';
 
 const icon = (iconEl, { size = 18, strokeWidth = 1, color = 'currentColor', ...rest } = {}) => (
   <span
@@ -32,3 +32,5 @@ export const LuCircleQuestionMark = (props) => icon(CircleQuestionMark, props);
 export const LuCircleUser = (props) => icon(CircleUser, props);
 export const LuCoins = (props) => icon(Coins, props);
 export const LuAsterisk = (props) => icon(Asterisk, props);
+export const LuMail = (props) => icon(Mail, props);
+export const LuPhone = (props) => icon(Phone, props);

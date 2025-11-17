@@ -22,7 +22,7 @@ const greeting = () => {
 export default (props) => (
   <LoMain {...props}>
     <div class="home">
-      <h4 class="greeting">{greeting()}, {props.state.user.name.split(' ')[0]}!</h4>
+      <h4 class="greeting">{greeting()}, {props.user.name.split(' ')[0]}!</h4>
 
       <div class="cta">
         <h3>Get Fast & Reliable Credit</h3>

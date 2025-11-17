@@ -5,7 +5,7 @@ div.form-container {
   height: 100vh;
   user-select: none;
   
-  &>div.form-wrapper {
+  >div.form-wrapper {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -16,19 +16,19 @@ div.form-container {
     width: 75%;
     border: 2px solid darkslateblue;
     
-    &>div.logo {
+    >div.logo {
       display: flex;
       flex-direction: column;
       align-items: center;
       
-      &>h1 {
+      >h1 {
         font-size: 2rem;
         background: linear-gradient(darkslateblue, teal);
         background-clip: text;
         -webkit-text-fill-color: transparent;
       }
       
-      &>small {
+      >small {
         font-size: 0.625rem;
         font-style: italic;
         line-height: 1.25;
@@ -36,33 +36,54 @@ div.form-container {
       }
     }
     
-    &>form {
+    >form {
       display: flex;
       flex-direction: column;
       gap: 1.5rem 0;
       
-      &>small.cta {
+      >small.cta {
         text-align: center;
         color: darkslateblue;
         
-        &>a {
+        >a {
           text-decoration: underline dashed orange 2px;
           color: teal;
         }
       }
       
-      &>div.btn-submit {
+      >div.submit {
         display: flex;
         justify-content: flex-end;
         
-        &>button {
+        >button.btn-submit {
           padding: 0.5rem 1rem;
           border-radius: 0.25rem;
           cursor: pointer;
           border: 0;
           background-color: orange;
           color: black;
-          font-family: inherit;
+        }
+        
+        >button.btn-forgot-secret,
+        >a.login {
+          margin-right: auto;
+          font-size: 0.8rem;
+          border: none;
+          border-radius: 0.5rem;
+          align-self: flex-end;
+          padding-left: 2px;
+          background-color: transparent;
+
+          &:is(button) {
+            color: orangered;
+            border-bottom: 1.5px solid orangered;
+          }
+          
+          &:is(a) {
+            color: teal;
+            border-bottom: 1.5px solid teal;
+            padding-right: 2px;
+          }
         }
       }
     }

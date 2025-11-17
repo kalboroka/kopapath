@@ -1,0 +1,45 @@
+.account-container {
+  >h4 {
+    border-bottom: 2px solid darkslateblue;
+    border-bottom-left-radius: 0.25rem;
+    margin: 1rem 0;
+    color: darkslateblue;
+  }
+  
+  >.profile {
+    display: flex;
+    gap: 0 0.5rem;
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+    box-shadow: rgba(0, 0, 0, 0.125) -3px 3px 3px 0px;
+  
+    >img {
+      width: 5rem;
+      height: 5rem;
+      border-radius: 50%;
+    }
+    
+    >.info {
+      line-height: 1.75;
+      
+      >h4.full-name {
+        color: darkslateblue;
+        padding: 0 0.25rem;
+        letter-spacing: 1px;
+      }
+      
+      >span {
+        display: flex;
+        align-items: center;
+        font-size: 0.8rem;
+        &.email {
+          color: teal;
+        }
+        
+        >.lu-icon {
+          color: darkslateblue;
+        }
+      }
+    }
+  }
+}

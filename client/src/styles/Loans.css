@@ -16,9 +16,8 @@ div.loan-summary {
       margin: 0.5rem 0;
       
       >a {
-        font-family: inherit;
         font-weight: bold;
-        font-size: 0.875rem;
+        font-size: 0.75rem;
         background-color: orange;
         border-radius: 0.25rem;
         padding: 0.25rem 0.5rem;
@@ -43,7 +42,7 @@ div.loan-summary {
     >table {
       display: flex;
       flex-direction: column;
-      border: 2px solid teal;
+      border: 2px solid darkslateblue;
       border-radius: 0.25rem;
       
       tr {
@@ -53,9 +52,9 @@ div.loan-summary {
       }
       
       thead {
-        background-color: navajowhite;
-        color: teal;
-        border-bottom: 1px solid teal;
+        background-color: #ffe5bc;
+        color: darkslateblue;
+        border-bottom: 1px solid darkslateblue;
       }
       
       tbody>tr {
@@ -200,7 +199,6 @@ div.loan-apply {
         }
         
         >button {
-          font-family: inherit;
           font-weight: bold;
           color: black;
           background-color: orange;

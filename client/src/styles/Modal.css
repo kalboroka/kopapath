@@ -8,7 +8,7 @@ div.alert-modal {
   z-index: 99;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.625);
+  background-color: #000000A0;
   
   div.wrapper {
     display: flex;
@@ -18,7 +18,7 @@ div.alert-modal {
     padding: 1rem 2rem;
     max-width: 65%;
     border-radius: 0.25rem;
-    background-color: papayawhip;
+    background-color: #FFEFD5;
     
     &>div {
       display: flex;

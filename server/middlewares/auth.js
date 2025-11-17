@@ -1,4 +1,4 @@
-import { verifyAccess } from '#utils/session.js';
+import { verifyAccess } from '#utils/index.js';
 
 export function requireAuth(req, res, next) {
   const errMsg = 'credentials unmatched';

@@ -8,13 +8,13 @@ export { appReducer };
 const TOKEN_KEY = 'AccessToken';
 
 export const session = {
-  set(token, key=TOKEN_KEY) {
+  set(token, key = TOKEN_KEY) {
     window.sessionStorage.setItem(key, JSON.stringify(token));
   },
-  get(key=TOKEN_KEY) {
+  get(key = TOKEN_KEY) {
     return JSON.parse(window.sessionStorage.getItem(key));
   },
-  clear(key=TOKEN_KEY) {
+  clear(key = TOKEN_KEY) {
     window.sessionStorage.removeItem(key);
   },
   isLoggedIn() {
@@ -40,7 +40,7 @@ export async function apiFetch(url, options = {}) {
       },
       ...(options.body ? { body: JSON.stringify(options.body) } : {})
     });
-    
+
     if ((res.status === 401 || res.status === 403) && !Refreshed) {
       Refreshed = true;
 
@@ -64,7 +64,8 @@ export async function apiFetch(url, options = {}) {
         return { ok: false, error: _err.message };
       }
     }
-
+    const contentType = res.headers.get('content-type') || '';
+    if (!contentType.includes('application/json')) throw new Error('something went wrong');
     const data = await res.json();
     return { ok: res.ok, data };
 

@@ -1,8 +1,26 @@
-import { withRouter } from 'inferno-router';
-
+import { Component } from 'inferno';
 import AuthForm from '../../components/AuthForm';
 
-const Signup = withRouter((props) => <AuthForm {...props} mode="signup" />);
-const Login = withRouter((props) => <AuthForm {...props} mode="login" />);
+export const Login = props => (
+  <AuthForm
+    mode="login"
+    fields={['userid','secret']}
+    {...props}
+  />
+);
 
-export { Signup, Login };
+export const Signup = props => (
+  <AuthForm
+    mode="signup"
+    fields={['name','mobile','email','secret']}
+    {...props}
+  />
+);
+
+export const Reset = props => (
+  <AuthForm
+    mode="reset"
+    fields={['secret']}
+    {...props}
+  />
+);

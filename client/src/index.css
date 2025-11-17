@@ -4,8 +4,8 @@
 }
 
 :root {
-  height: 100vh;
-  width: 100vw;
+  min-height: 100vh;
+  min-width: 100vw;
   line-height: 1.25;
   font-size: 16px;
   font-family: Cascadia;
@@ -36,8 +36,11 @@ span.lu-icon {
   color: inherit;
 }
 
-input::placeholder {
+input {
   font-family: inherit;
+}
+
+input::placeholder {
   color: darkgray;
   letter-spacing: 2px;
   font-size: 0.75rem;
@@ -45,6 +48,7 @@ input::placeholder {
 
 button {
   user-select: none;
+  font-family: inherit;
   -webkit-tap-highlight-color: transparent;
 }
 
